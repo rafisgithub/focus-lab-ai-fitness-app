@@ -17,7 +17,10 @@ from pathlib import Path
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,7 +39,11 @@ ALLOWED_HOSTS = ['*']  # Accept all hosts temporarily
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.ngrok-free.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
 
 
 
@@ -44,6 +51,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
+    "corsheaders",
+    "modeltranslation",
     "unfold",  # before django.contrib.admin
     "unfold.contrib.filters",  # optional, if special filters are needed
     "unfold.contrib.forms",  # optional, if special form elements are needed
@@ -57,14 +66,22 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "rest_framework_simplejwt",
     "apps.seeders",
+    "apps.contacts",
     "apps.users",
-    "apps.products",
-
+    "apps.cms",
+    "apps.subscriptions",
+    "django_select2",
+    "import_export",
+    "apps.ai_helper",
+    "apps.dashboard",
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -129,7 +146,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
+LANGUAGES = (
+    ('en', 'English'),
+    ('de', 'German'),  # de = Deutsch
+)
 
+# LANGUAGE_CODE = 'de'  # Default language (German in your case)
 
 
 LANGUAGE_CODE = "en-us"
@@ -147,15 +169,12 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -173,8 +192,6 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "EXCEPTION_HANDLER": "apps.utils.custom_exception.custom_exception_handler",
-
 }
 
 
@@ -188,24 +205,27 @@ SIMPLE_JWT = {
 # email
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'towhidulislam.mail@gmail.com'
-EMAIL_HOST_PASSWORD = 'bdui nxzn dogt fqxl'
+EMAIL_HOST = 'smtp.gmail.com'  # SMTP server host
+EMAIL_PORT = 587  # SMTP server port (587 for TLS, 465 for SSL)
+EMAIL_USE_TLS = True  # True for TLS, False for SSL
+EMAIL_HOST_USER = 'mainbsl4@gmail.com'  # SMTP server username
+EMAIL_HOST_PASSWORD = 'nmwk umma atdu sosv'  # SMTP server password
+EMAIL_USE_SSL = False  # Set to True if using SSL
+DEFAULT_FROM_EMAIL = 'your_email@example.com'
 
 
 
 
 UNFOLD = {
-    "SITE_TITLE": "Venkat Admin",
+    "SITE_TITLE": "Poseidon",
     "SITE_HEADER": "Appears in sidebar at the top",
     "SITE_SUBHEADER": "Appears under SITE_HEADER",
+    "DASHBOARD_CALLBACK": "apps.dashboard.views.dashboard_callback",
     "SITE_DROPDOWN": [
         {
             "icon": "diamond",
             "title": _("My site"),
-            "link": "https://venkat.netlify.app",
+            "link": "https://clevercv.netlify.app",
             "target": "_blank",
         },
         # ...
@@ -263,40 +283,162 @@ UNFOLD = {
                         "icon": "people",
                         "link": reverse_lazy("admin:users_user_changelist"),
                     },
-                 
+                    {
+                        "title": _("FeatureLeads"),
+                        "icon": "social_leaderboard",
+                        "link": reverse_lazy("admin:cms_upcomingfeatureinteresteduser_changelist"),
+                    }
                 ],
             },
             {
-                "title": _("Product Management"),
+                "title": _("CMS Management"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+
+                    {
+                        "title": _("Hero Sections"),
+                        "icon": "rewarded_ads",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("admin:cms_herosection_changelist"),
+                    },
+                    {
+                        "title": _("Brands"),
+                        "icon": "branding_watermark",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("admin:cms_brand_changelist"),
+                    },
+                    {
+                        "title": _("Features"),
+                        "icon": "star",
+                        "link": reverse_lazy("admin:cms_feature_changelist"),
+                    },
+                    {
+                        "title": _("How It Works Features"),
+                        "icon": "info",
+                        "link": reverse_lazy("admin:cms_howitworkfeature_changelist"),
+                    },
+                    {
+                        "title": _("How It Works"),
+                        "icon": "how_to_reg",
+                        "link": reverse_lazy("admin:cms_howitwork_changelist"),
+                    },
+                    {
+                        "title": _("Testimonials"),
+                        "icon": "rate_review",
+                        "link": reverse_lazy("admin:cms_testimonial_changelist")
+                    },
+                    {
+                        "title": _("Benefits"),
+                        "icon": "check_circle",
+                        "link": reverse_lazy("admin:cms_benefit_changelist"),
+                    },
+                    {
+                        "title": _("FAQs"),
+                        "icon": "help",
+                        "link": reverse_lazy("admin:cms_faq_changelist"),
+                    },
+                    {
+                        "title": _("Pages"),
+                        "icon": "description",
+                        "link": reverse_lazy("admin:cms_page_changelist"),
+                    },
+                                    {
+                        "title": _("Interview Coach Section"),
+                        "icon": "eyeglasses",
+                        "link": reverse_lazy("admin:cms_interviewcoachsection_changelist"),
+                    },
+                    {
+                        "title": _("Global CTA"),
+                        "icon": "call_to_action",
+                        "link": reverse_lazy("admin:cms_globalcta_changelist"),
+                    },
+                    {
+                        "title": _("Footer"),
+                        "icon": "page_footer",
+                        "link": reverse_lazy("admin:cms_footer_changelist"),
+                    },
+
+                ],
+            },
+            {
+                "title": _("Subscription Management"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+
+                    {
+                        "title": _("Features"),
+                        "icon": "star",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("admin:subscriptions_feature_changelist"),
+                    },
+                    {
+                        "title": _("Packages"),
+                        "icon": "package",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("admin:subscriptions_package_changelist"),
+                    },
+                    {
+                        "title" : _("Subscriptions"),
+                        "icon": "subscriptions",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("admin:subscriptions_subscription_changelist"),
+                    }
+                ],
+            },
+           
+            {
+                "title": _("Payment History"),
                 "separator": True,  # Top border
                 "collapsible": True,  # Collapsible group of links
                 "items": [
                     {
-                        "title": _("Categories"),
-                        "icon": "category",
-                        "link": reverse_lazy("admin:products_category_changelist"),
+                        "title": _("Payments"),
+                        "icon": "payments",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("admin:subscriptions_paymenthistory_changelist"),
                     },
-                    {
-                        "title": _("Subcategories"),
-                        "icon": "category",
-                        "link": reverse_lazy("admin:products_subcategory_changelist"),
-                    },
-                    {
-                        "title": _("Products"),
-                        "icon": "shopping_cart",
-                        "link": reverse_lazy("admin:products_product_changelist"),
-
-                    },
-               
+                    
                 ],
             },
            
+            {
+                "title": _("Users Contacted Us"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Contact List"),
+                        "icon": "list",
+                        "link": reverse_lazy("admin:contacts_contact_changelist"),
+                        "badge": "apps.contacts.admin_utils.unread_contact_badge",
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                   
+                ],
+            },
+            {
+                "title": _("AI Helper"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Suggested Questions"),
+                        "icon": "list",
+                        "link": reverse_lazy("admin:ai_helper_suggestedquestion_changelist"),
+              
+                    },
+                    {
+                        "title": _("Chat History"),
+                        "icon": "list",
+                        "link": reverse_lazy("admin:ai_helper_chathistory_changelist"),
+
+                    },
+                   
+                ],
+            },
            
         ],
     },
   
 }
 
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 
 

@@ -1,0 +1,18 @@
+/* static/css/custom_admin.css */
+
+/* Dark mode compatibility for Select2 */
+html[data-theme="dark"] .select2-container--default .select2-selection--multiple {
+      background-color: #000000!important;
+    
+}
+
+html[data-theme="dark"] .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #000000 !important;
+
+}
+html[data-theme="dark"] .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #cb1b1b !important;
+    color: #a31414 !important;
+}
+
+

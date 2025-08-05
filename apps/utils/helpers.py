@@ -10,7 +10,7 @@ def success(data=None, message="Success", code=status.HTTP_200_OK):
         "data": data
     }, status=code)
 
-def error(message="Error", errors=None, code=status.HTTP_400_BAD_REQUEST):
+def error(message="Something went wrong", errors=None, code=status.HTTP_400_BAD_REQUEST):
     return Response({
         "success": False,
         "message": message,

@@ -1,0 +1,25 @@
+/* Center the preview image */
+/* .dropify-wrapper .dropify-preview {
+  align-items: center !important;
+  background-color: var(--unfold-bg-color, #111827); 
+
+}
+
+
+.dropify-wrapper .dropify-preview img {
+  max-width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+:root {
+  --unfold-bg-color: #111827; 
+}
+
+body.unfold-dark {
+  --unfold-bg-color: #2a2a2a; 
+}
+
+.dropify-wrapper .dropify-preview {
+  background-color: var(--unfold-bg-color);
+} */
