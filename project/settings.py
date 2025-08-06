@@ -69,7 +69,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "apps.seeders",
-    "apps.contacts",
     "apps.users",
     "apps.cms",
     "apps.subscriptions",
@@ -192,6 +191,8 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "EXCEPTION_HANDLER": "apps.utils.custom_exception.custom_exception_handler",
+
 }
 
 

@@ -1,5 +1,4 @@
 from django.contrib import admin
-from modeltranslation.admin import TranslationAdmin
 from django.db import models
 
 # from apps.cms.forms import HowItWorkForm
@@ -29,7 +28,7 @@ from unfold.contrib.forms.widgets import WysiwygWidget
 
 
 @admin.register(Brand)
-class BrandAdmin(TranslationAdmin, ModelAdmin):
+class BrandAdmin(ModelAdmin):
     form = BrandForm
 
     list_display = ("serialNumber", "name_de", "name_en", "preview_logo")
@@ -57,7 +56,7 @@ class BrandAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(Feature)
-class FeatureAdmin(TranslationAdmin, ModelAdmin):
+class FeatureAdmin(ModelAdmin):
     form = FeatureForm
 
     list_display = (
@@ -101,7 +100,7 @@ class FeatureAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(Testimonial)
-class TestimonialAdmin(TranslationAdmin, ModelAdmin):
+class TestimonialAdmin(ModelAdmin):
     form = TestimonialForm
 
     list_display = (
@@ -146,7 +145,7 @@ class TestimonialAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(Benefit)
-class BenefitAdmin(TranslationAdmin, ModelAdmin):
+class BenefitAdmin(ModelAdmin):
     form = BenefitForm
 
     list_display = (
@@ -185,7 +184,7 @@ class BenefitAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(Faq)
-class FaqAdmin(TranslationAdmin, ModelAdmin):
+class FaqAdmin(ModelAdmin):
     formfield_overrides = {
         models.TextField: {
             "widget": WysiwygWidget,
@@ -219,7 +218,7 @@ class FaqAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(Page)
-class PageAdmin(TranslationAdmin, ModelAdmin):
+class PageAdmin(ModelAdmin):
     formfield_overrides = {
         models.TextField: {
             "widget": WysiwygWidget,
@@ -240,7 +239,7 @@ class PageAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(HeroSection)
-class HeroSectionAdmin(TranslationAdmin, ModelAdmin):
+class HeroSectionAdmin(ModelAdmin):
     list_display = ("serialNumber", "title", "sub_title", "preview_banner")
     list_display_links = ("serialNumber", "title", "sub_title", "preview_banner")
     search_fields = ("title", "sub_title")
@@ -266,7 +265,7 @@ class HeroSectionAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(HowItWorkFeature)
-class FeatureAdmin(TranslationAdmin, ModelAdmin):
+class FeatureAdmin(ModelAdmin):
     list_display = ("serialNumber", "name_en", "name_de")
     list_display_links = ("serialNumber", "name_en", "name_de")
     search_fields = ("name_en", "name_de")
@@ -281,7 +280,7 @@ class FeatureAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(HowItWork)
-class HowItWorkAdmin(TranslationAdmin, ModelAdmin):
+class HowItWorkAdmin(ModelAdmin):
     model = HowItWork
     form = HowItWorkForm
     list_display = (
@@ -318,7 +317,7 @@ class HowItWorkAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(InterviewCoachSection)
-class InterviewCoachSectionAdmin(TranslationAdmin, ModelAdmin):
+class InterviewCoachSectionAdmin(ModelAdmin):
     list_display = ("serialNumber", "title_en", "short_description")
     list_display_links = ("serialNumber", "title_en", "short_description")
     search_fields = ("title_en",)
@@ -339,7 +338,7 @@ class InterviewCoachSectionAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(Footer)
-class FooterAdmin(TranslationAdmin, ModelAdmin):
+class FooterAdmin(ModelAdmin):
     list_display = (
         "serialNumber",
         "content_en",
@@ -399,7 +398,7 @@ class UpcomingFeatureInterestedUserAdmin(ModelAdmin, ImportExportModelAdmin):
         return False
     
 @admin.register(GlobalCta)
-class GlobalCtaAdmin(TranslationAdmin, ModelAdmin):
+class GlobalCtaAdmin(ModelAdmin):
     list_display = ("serialNumber", "title_en", "title_de", "description_en", "button_text_en", "button_text_de")
     list_display_links =("serialNumber", "title_en", "title_de", "description_en", "button_text_en", "button_text_de")
     search_fields =("serialNumber", "title_en", "title_de", "description_en", "button_text_en", "button_text_de")

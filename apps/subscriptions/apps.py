@@ -7,4 +7,3 @@ class SubscriptionsConfig(AppConfig):
 
     def ready(self):
         import apps.subscriptions.signals
-        import apps.subscriptions.translation
