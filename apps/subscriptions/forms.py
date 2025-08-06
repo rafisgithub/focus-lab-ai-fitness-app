@@ -1,7 +1,6 @@
 from django import forms
 from django.utils.translation import override
 from apps.subscriptions.models import Package, Feature
-from modeltranslation.utils import get_translation_fields
 from django_select2.forms import Select2MultipleWidget
 
 

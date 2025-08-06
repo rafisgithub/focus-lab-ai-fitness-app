@@ -1,5 +1,4 @@
 from django.contrib import admin
-from modeltranslation.admin import TranslationAdmin
 from unfold.admin import ModelAdmin
 from apps.subscriptions.models import Feature, Package, Subscription, PaymentHistory
 from django_select2.forms import Select2MultipleWidget

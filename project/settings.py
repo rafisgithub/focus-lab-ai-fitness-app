@@ -52,7 +52,6 @@ CSRF_TRUSTED_ORIGINS = [
 
 INSTALLED_APPS = [
     "corsheaders",
-    "modeltranslation",
     "unfold",  # before django.contrib.admin
     "unfold.contrib.filters",  # optional, if special filters are needed
     "unfold.contrib.forms",  # optional, if special form elements are needed
