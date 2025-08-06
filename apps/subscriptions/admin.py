@@ -4,10 +4,10 @@ from apps.subscriptions.models import Feature, Package, Subscription, PaymentHis
 from django_select2.forms import Select2MultipleWidget
 from apps.subscriptions.forms import PackageAdminForm
 @admin.register(Feature)
-class FeatureAdmin(TranslationAdmin, ModelAdmin):
-    list_display = ('name', 'name_de', 'name_en')  # Show both translations
-    list_display_links = ('name',)  # Make the main name clickable
-    search_fields = ('name', 'name_de', 'name_en')  # Search in all language fields
+class FeatureAdmin(ModelAdmin):
+    list_display = ('name',)  
+    list_display_links = ('name',)
+    search_fields = ('name',) 
 
     fieldsets = (
         (None, {
@@ -19,17 +19,17 @@ class FeatureAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(Package)
-class PackageAdmin(TranslationAdmin, ModelAdmin):
+class PackageAdmin(ModelAdmin):
 
     model = Package
     form = PackageAdminForm
 
-    list_display = ('id','name_de','name_en', 'stripe_price_id', 'stripe_product_id', 'price', 'type', 'enabled')
-    list_display_links = ('id','name_de','name_en','price','type','enabled','stripe_price_id','stripe_product_id')
+    list_display = ('id','name', 'stripe_price_id', 'stripe_product_id', 'price', 'type', 'enabled')
+    list_display_links = ('id','name','price','type','enabled','stripe_price_id','stripe_product_id')
     list_filter = ('type', 'enabled')
-    search_fields = ('name_de','name_en', 'stripe_product_id')
+    search_fields = ('name', 'stripe_product_id')
     ordering = ('id',)
-    # filter_horizontal = ('features_en', 'features_de')  # Use filter_horizontal for better UI with many-to-many fields
+    # filter_horizontal = ('features',)  # Use filter_horizontal for better UI with many-to-many fields
 
 
     fieldsets = (

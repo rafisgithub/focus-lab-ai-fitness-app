@@ -12,7 +12,7 @@ from .views import (
     ResendOTPView,
     VerifyOTPView,
     ResetPasswordView,
-    UpdataProfileAvatarView,
+    UpdateProfileAvatarView,
     UpdateProfileView,
     ProfileGet,
 )
@@ -30,7 +30,7 @@ urlpatterns = [
     path('reset-password/', ResetPasswordView.as_view(), name='reset-password'),
 
     # profile
-    path('avatar-update/', UpdataProfileAvatarView.as_view(), name='avatar-update'),
+    path('avatar-update/', UpdateProfileAvatarView.as_view(), name='avatar-update'),
     path('profile-update/', UpdateProfileView.as_view(), name='profile-update'),
     path('profile-get/', ProfileGet.as_view(), name='profile-get'),
 

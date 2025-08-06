@@ -31,11 +31,10 @@ from unfold.contrib.forms.widgets import WysiwygWidget
 class BrandAdmin(ModelAdmin):
     form = BrandForm
 
-    list_display = ("serialNumber", "name_de", "name_en", "preview_logo")
-    list_display_links = ("serialNumber", "name_de", "name_en", "preview_logo")
+    list_display = ("serialNumber", "name", "preview_logo")
+    list_display_links = ("serialNumber", "name", "preview_logo")
     search_fields = (
-        "name_de",
-        "name_en",
+        "name",
     )
     ordering = ("id",)
 
@@ -61,25 +60,19 @@ class FeatureAdmin(ModelAdmin):
 
     list_display = (
         "serialNumber",
-        "title_de",
-        "title_en",
-        "short_description_de",
-        "short_description_en",
+        "title",
+        "short_description",
         "preview_feature_logo",
     )
     list_display_links = (
         "serialNumber",
-        "title_de",
-        "title_en",
-        "short_description_de",
-        "short_description_en",
+        "title",
+        "short_description",
         "preview_feature_logo",
     )
     search_fields = (
-        "title_de",
-        "title_en",
-        "short_description_de",
-        "short_description_en",
+        "title",
+        "short_description",
     )
     ordering = ("id",)
 
@@ -105,25 +98,20 @@ class TestimonialAdmin(ModelAdmin):
 
     list_display = (
         "serialNumber",
-        "name_de",
-        "name_en",
-        "profession_de",
-        "profession_en",
+        "name",
+        "profession",
         "rating",
-        "comment_de",
-        "comment_en",
+        "comment",
         "preview_user_image",
     )
     list_display_links = (
         "serialNumber",
-        "name_de",
-        "name_en",
-        "profession_de",
-        "profession_en",
+        "name",
+        "profession",
         "rating",
         "preview_user_image",
     )
-    search_fields = ("name_de", "name_en", "profession_de", "profession_en")
+    search_fields = ("name", "profession")
     ordering = ("id",)
 
     fieldsets = (
@@ -150,21 +138,17 @@ class BenefitAdmin(ModelAdmin):
 
     list_display = (
         "serialNumber",
-        "title_de",
-        "title_en",
-        "sub_title_de",
-        "sub_title_en",
+        "title",
+        "sub_title",
         "preview_benefit_logo",
     )
     list_display_links = (
         "serialNumber",
-        "title_de",
-        "title_en",
-        "sub_title_de",
-        "sub_title_en",
+        "title",
+        "sub_title",
         "preview_benefit_logo",
     )
-    search_fields = ("title_de", "title_en", "sub_title_de", "sub_title_en")
+    search_fields = ("title", "sub_title")
     ordering = ("id",)
 
     fieldsets = ((None, {"fields": ("title", "sub_title", "logo")}),)
@@ -192,21 +176,17 @@ class FaqAdmin(ModelAdmin):
     }
     list_display = (
         "serialNumber",
-        "question_de",
-        "question_en",
-        "answer_de",
-        "answer_en",
+        "question",
+        "answer",
         "is_active",
     )
     list_display_links = (
         "serialNumber",
-        "question_de",
-        "question_en",
-        "answer_de",
-        "answer_en",
+        "question",
+        "answer",
         "is_active",
     )
-    search_fields = ("question_de", "question_en")
+    search_fields = ("question", "answer")
     ordering = ("id",)
 
     fieldsets = ((None, {"fields": ("question", "answer", "is_active")}),)
@@ -225,9 +205,9 @@ class PageAdmin(ModelAdmin):
         }
     }
 
-    list_display = ("serialNumber", "type", "title_de", "title_en", "is_active")
-    list_display_links = ("serialNumber", "type", "title_de", "title_en", "is_active")
-    search_fields = ("title_de", "title_en", "type")
+    list_display = ("serialNumber", "type", "title", "is_active")
+    list_display_links = ("serialNumber", "type", "title", "is_active")
+    search_fields = ("title", "type")
     ordering = ("id",)
 
     fieldsets = ((None, {"fields": ("type", "title", "content", "is_active")}),)
@@ -266,9 +246,9 @@ class HeroSectionAdmin(ModelAdmin):
 
 @admin.register(HowItWorkFeature)
 class FeatureAdmin(ModelAdmin):
-    list_display = ("serialNumber", "name_en", "name_de")
-    list_display_links = ("serialNumber", "name_en", "name_de")
-    search_fields = ("name_en", "name_de")
+    list_display = ("serialNumber", "name")
+    list_display_links = ("serialNumber", "name")
+    search_fields = ("name",)
     ordering = ("id",)
 
     fieldsets = ((None, {"fields": ("name",)}),)
@@ -318,9 +298,9 @@ class HowItWorkAdmin(ModelAdmin):
 
 @admin.register(InterviewCoachSection)
 class InterviewCoachSectionAdmin(ModelAdmin):
-    list_display = ("serialNumber", "title_en", "short_description")
-    list_display_links = ("serialNumber", "title_en", "short_description")
-    search_fields = ("title_en",)
+    list_display = ("serialNumber", "title", "short_description")
+    list_display_links = ("serialNumber", "title", "short_description")
+    search_fields = ("title",)
     ordering = ("id",)
 
     fieldsets = ((None, {"fields": ("title", "short_description")}),)
@@ -341,23 +321,17 @@ class InterviewCoachSectionAdmin(ModelAdmin):
 class FooterAdmin(ModelAdmin):
     list_display = (
         "serialNumber",
-        "content_en",
-        "content_de",
-        "copyright_text_en",
-        "copyright_text_de",
+        "content",
+        "copyright_text",
     )
     list_display_links = (
         "serialNumber",
-        "content_en",
-        "content_de",
-        "copyright_text_en",
-        "copyright_text_de",
+        "content",
+        "copyright_text",
     )
     search_fields = (
-        "content_en",
-        "content_de",
-        "copyright_text_en",
-        "copyright_text_de",
+        "content",
+        "copyright_text",
     )
     ordering = ("id",)
 
@@ -399,9 +373,10 @@ class UpcomingFeatureInterestedUserAdmin(ModelAdmin, ImportExportModelAdmin):
     
 @admin.register(GlobalCta)
 class GlobalCtaAdmin(ModelAdmin):
-    list_display = ("serialNumber", "title_en", "title_de", "description_en", "button_text_en", "button_text_de")
-    list_display_links =("serialNumber", "title_en", "title_de", "description_en", "button_text_en", "button_text_de")
-    search_fields =("serialNumber", "title_en", "title_de", "description_en", "button_text_en", "button_text_de")
+    
+    list_display = ("serialNumber", "title", "description", "button_text")
+    list_display_links =("serialNumber", "title", "description", "button_text")
+    search_fields =("serialNumber", "title", "description", "button_text")
     ordering = ("id",)
 
     fieldsets = ((None, {"fields": ("title", "description", "button_text")}),)

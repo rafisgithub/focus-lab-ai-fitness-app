@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
-from .models import User, UserProfile, VendorProfile
+from .models import User
 from django.utils.html import format_html
 @admin.register(User)
 class CustomAdminClass(ModelAdmin):

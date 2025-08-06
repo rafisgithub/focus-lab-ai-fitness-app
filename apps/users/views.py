@@ -17,12 +17,10 @@ from .serializers import (
     ChangePasswordSerializer,
     SendOTPSerializer,
     ResendOTPSerializer,
+    UpdateProfileAvatarSerializer,
     VerifyOTPSerializer,
     ResetPasswordSerializer,
-    PreparationTypeSerializer,
-    UpdataProfileAvatarSerializer,
     UserProfileSerializer,
-    UserSerializer,
 )
 from django.http import Http404
 from apps.utils.helpers import success, error
@@ -60,9 +58,8 @@ class SignOutView(APIView):
         serializer = SignOutSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'status':status.HTTP_200_OK, 'success':True, 'message': 'Logout successful.', 'data': serializer.data}, status.HTTP_200_OK)
-        return Response({'status':status.HTTP_400_BAD_REQUEST, 'success':False, 'message': 'Logout failed.', 'data': serializer.errors}, status.HTTP_400_BAD_REQUEST)
-
+            return success(data=[], message="Logout successfully.", code=status.HTTP_200_OK)
+        raise ValidationError(serializer.errors)
 
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
@@ -72,8 +69,8 @@ class ChangePasswordView(APIView):
         serializer = ChangePasswordSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'status':status.HTTP_200_OK, 'success':True, 'message': 'Password change successfully.', 'data': []}, status.HTTP_200_OK)
-        return Response({'status':status.HTTP_400_BAD_REQUEST, 'success':False, 'message': 'Password change failed.', 'data': serializer.errors}, status.HTTP_400_BAD_REQUEST)
+            return success(data=[], message="Password changed successfully.", code=status.HTTP_200_OK)
+        raise ValidationError(serializer.errors)
 
 
 class SendOTPView(APIView):
@@ -82,11 +79,8 @@ class SendOTPView(APIView):
     def post(self, request):
         serializer = SendOTPSerializer(data=request.data)
         if serializer.is_valid():
-            return Response({'status':status.HTTP_200_OK, 'success':True, 'message': 'OTP send to mail successfully.', 'data': []}, status.HTTP_200_OK)
-        errors = serializer.errors
-        if "email" in errors:
-            errors["error"] = errors.pop("email")
-        return Response({'status':status.HTTP_400_BAD_REQUEST, 'success':False, 'message': 'OTP send to mail failed.', 'data': errors}, status.HTTP_400_BAD_REQUEST)
+            return success(data=[], message="OTP sent to email successfully.", code=status.HTTP_200_OK)
+        raise ValidationError(serializer.errors)
 
 
 class ResendOTPView(APIView):
@@ -95,11 +89,8 @@ class ResendOTPView(APIView):
     def post(self, request):
         serializer = ResendOTPSerializer(data=request.data)
         if serializer.is_valid():
-            return Response({'status':status.HTTP_200_OK, 'success':True, 'message': 'OTP send to mail successfully.', 'data': []}, status.HTTP_200_OK)
-        errors = serializer.errors
-        if "email" in errors:
-            errors["error"] = errors.pop("email")
-        return Response({'status':status.HTTP_400_BAD_REQUEST, 'success':False, 'message': 'OTP send to mail failed.', 'data': errors}, status.HTTP_400_BAD_REQUEST)
+            return success(data=[], message="OTP resent successfully.", code=status.HTTP_200_OK)
+        raise ValidationError(serializer.errors)
 
 
 class VerifyOTPView(APIView):
@@ -109,9 +100,8 @@ class VerifyOTPView(APIView):
         serializer = VerifyOTPSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'status':status.HTTP_200_OK, 'success':True, 'message': 'OTP verify is successfully.', 'data': []}, status.HTTP_200_OK)
-        return Response({'status':status.HTTP_400_BAD_REQUEST, 'success':False, 'message': 'OTP verify is failed.', 'data': serializer.errors}, status.HTTP_400_BAD_REQUEST)
-
+            return success(data=[], message="OTP verified successfully.", code=status.HTTP_200_OK)
+        raise ValidationError(serializer.errors)
 
 class ResetPasswordView(APIView):
     permission_classes = []
@@ -120,15 +110,11 @@ class ResetPasswordView(APIView):
         serializer = ResetPasswordSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'status':status.HTTP_200_OK, 'success':True, 'message': 'Password reset successfully.', 'data': []}, status.HTTP_200_OK)
-        errors = serializer.errors
-        if "non_field_errors" in errors:
-            errors["error"] = errors.pop("non_field_errors")
-        return Response({'status':status.HTTP_400_BAD_REQUEST, 'success':False, 'message': 'Password reset failed.', 'data': errors}, status.HTTP_400_BAD_REQUEST)
+            return success(data=[], message="Password reset successfully.", code=status.HTTP_200_OK)
+        raise ValidationError(serializer.errors)
 
 
-
-class UpdataProfileAvatarView(APIView):
+class UpdateProfileAvatarView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
@@ -138,13 +124,13 @@ class UpdataProfileAvatarView(APIView):
         try:
             userProfile = UserProfile.objects.select_related('user').get(user=user)
         except UserProfile.DoesNotExist as e:
-            return Response({'status': status.HTTP_400_BAD_REQUEST, 'success': 'false', 'message': 'User not Found.', 'data': str(e)}, status.HTTP_400_BAD_REQUEST)
+            return error(message="User profile not found.", errors=e, code=status.HTTP_400_BAD_REQUEST)
 
-        serializer = UpdataProfileAvatarSerializer(userProfile, data=request.data, partial=True)
+        serializer = UpdateProfileAvatarSerializer(userProfile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response({'status':status.HTTP_200_OK, 'success':True, 'message': 'Profile avatar update successfully.', 'data': serializer.data}, status.HTTP_200_OK)
-        return Response({'status':status.HTTP_400_BAD_REQUEST, 'success':False, 'message': 'Profile avatar update failed.', 'data': serializer.errors}, status.HTTP_400_BAD_REQUEST)
+            return success(data=serializer.data, message="Profile avatar updated successfully.", code=status.HTTP_200_OK)
+        raise ValidationError(serializer.errors)
 
 
 class UpdateProfileView(APIView):
@@ -157,13 +143,13 @@ class UpdateProfileView(APIView):
         try:
             userProfile = UserProfile.objects.select_related('user').get(user=user)
         except UserProfile.DoesNotExist:
-            return Response({'status': status.HTTP_400_BAD_REQUEST, 'success': False, 'message': 'User not found.', 'data': []})
+            return error(message="User profile not found.", code=status.HTTP_400_BAD_REQUEST)
 
         serializer = UserProfileSerializer(userProfile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response({'status': status.HTTP_200_OK, 'success': True, 'message': 'Profile update successfully.', 'data': serializer.data})
-        return Response({'status': status.HTTP_400_BAD_REQUEST, 'success': False, 'message': 'Profile update failed.', 'data': serializer.errors})
+            return success(data=serializer.data, message="Profile updated successfully.", code=status.HTTP_200_OK)
+        raise ValidationError(serializer.errors)
 
 
 class ProfileGet(APIView):
@@ -176,20 +162,19 @@ class ProfileGet(APIView):
         try:
             profile = UserProfile.objects.select_related('user').get(user=user)
         except UserProfile.DoesNotExist:
-            return Response({'status': status.HTTP_400_BAD_REQUEST, 'success': False, 'message': 'User not found.', 'data': []})
+            return error(message="User profile not found.", code=status.HTTP_400_BAD_REQUEST)
 
         data = {
             'id': profile.id,
             'email': profile.user.email,
             'first_name': profile.first_name,
             'last_name': profile.last_name,
-            'phone': profile.phone,
             'accepted_terms': profile.accepted_terms,
             'avatar_url': profile.avatar.url if profile.avatar else None,
             'created_at': profile.created_at,
             'updated_at': profile.updated_at,
         }
-        return Response({'status': status.HTTP_200_OK, 'success': True, 'message': 'Profile get successfully.', 'data': data})
+        return success(data=data, message="Profile retrieved successfully.", code=status.HTTP_200_OK)
 
 
 def dashboard_callback(request, context):

@@ -203,15 +203,12 @@ SIMPLE_JWT = {
 
 
 # email
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # SMTP server host
-EMAIL_PORT = 587  # SMTP server port (587 for TLS, 465 for SSL)
-EMAIL_USE_TLS = True  # True for TLS, False for SSL
-EMAIL_HOST_USER = 'mainbsl4@gmail.com'  # SMTP server username
-EMAIL_HOST_PASSWORD = 'nmwk umma atdu sosv'  # SMTP server password
-EMAIL_USE_SSL = False  # Set to True if using SSL
-DEFAULT_FROM_EMAIL = 'your_email@example.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'towhidulislam.mail@gmail.com'
+EMAIL_HOST_PASSWORD = 'bdui nxzn dogt fqxl'
 
 
 
@@ -397,21 +394,7 @@ UNFOLD = {
                 ],
             },
            
-            {
-                "title": _("Users Contacted Us"),
-                "separator": True,  # Top border
-                "collapsible": True,  # Collapsible group of links
-                "items": [
-                    {
-                        "title": _("Contact List"),
-                        "icon": "list",
-                        "link": reverse_lazy("admin:contacts_contact_changelist"),
-                        "badge": "apps.contacts.admin_utils.unread_contact_badge",
-                        "permission": lambda request: request.user.is_superuser,
-                    },
-                   
-                ],
-            },
+
             {
                 "title": _("AI Helper"),
                 "separator": True,  # Top border

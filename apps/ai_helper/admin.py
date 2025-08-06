@@ -5,8 +5,8 @@ from apps.ai_helper.models import ChatHistory
 # Register your models here.
 @admin.register(SuggestedQuestion)
 class SuggestedQuestionAdmin(ModelAdmin):
-    list_display = ('id', 'question','question_en', 'question_de')
-    list_display_links = ('id', 'question', 'question_en', 'question_de')
+    list_display = ('id', 'question',)
+    list_display_links = ('id', 'question',)
     search_fields = ('question',)
     ordering = ('id',)
 

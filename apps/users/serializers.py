@@ -231,7 +231,7 @@ class VerifyOTPSerializer(serializers.Serializer):
             raise serializers.ValidationError({'error': "OTP not found. Please request a new one."})
 
         if otp_obj.is_verify:
-            raise serializers.ValidationError({'error': "OTP already varified."})
+            raise serializers.ValidationError({'error': "OTP already verified."})
 
         if otp_obj.is_expired():
             otp_obj.delete()
@@ -310,7 +310,7 @@ class PreparationTypeSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ['preparation_type']
 
-class UpdataProfileAvatarSerializer(serializers.ModelSerializer):
+class UpdateProfileAvatarSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['avatar']

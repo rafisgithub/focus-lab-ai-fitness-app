@@ -15,11 +15,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
-    is_customer = models.BooleanField(default=True)
-    is_vendor = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    date_joined = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
@@ -32,7 +30,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    phone = models.CharField(max_length=20, blank=True, null=True)
     accepted_terms = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -42,21 +39,6 @@ class UserProfile(models.Model):
         return f"{self.first_name} {self.last_name}" if self.first_name or self.last_name else self.user.email
 
 
-class VendorProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vendor_profile')
-    gstin = models.CharField(max_length=15, blank=True, null=True)
-    phone_number = models.CharField(max_length=20, blank=True, null=True)
-    store_name = models.CharField(max_length=100, blank=True, null=True)
-    ac_holder_name = models.CharField(max_length=100, blank=True, null=True)
-    ac_number = models.CharField(max_length=20, blank=True, null=True)
-    confirm_ac_number = models.CharField(max_length=20, blank=True, null=True)
-    ifsc_code = models.CharField(max_length=11, blank=True, null=True)
-    bank_name = models.CharField(max_length=100, blank=True, null=True)
-    business_name = models.CharField(max_length=100, blank=True, null=True)
-    bank_details_confirmed = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"{self.store_name} - {self.user.email}" if self.store_name else self.user.email
 
 PURPOSE = (
     ('password_reset', 'Password Reset'),
