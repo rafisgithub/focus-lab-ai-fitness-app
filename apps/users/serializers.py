@@ -345,8 +345,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "user",
             "first_name",
             "last_name",
-            "phone",
-            "accepted_terms",
             "avatar",
             "created_at",
             "updated_at",

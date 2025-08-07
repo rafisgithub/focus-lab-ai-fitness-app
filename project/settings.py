@@ -214,7 +214,7 @@ EMAIL_HOST_PASSWORD = 'bdui nxzn dogt fqxl'
 
 
 UNFOLD = {
-    "SITE_TITLE": "Poseidon",
+    "SITE_TITLE": "Focus Lab AI Fitness App",
     "SITE_HEADER": "Appears in sidebar at the top",
     "SITE_SUBHEADER": "Appears under SITE_HEADER",
     "DASHBOARD_CALLBACK": "apps.dashboard.views.dashboard_callback",
@@ -280,141 +280,69 @@ UNFOLD = {
                         "icon": "people",
                         "link": reverse_lazy("admin:users_user_changelist"),
                     },
-                    {
-                        "title": _("FeatureLeads"),
-                        "icon": "social_leaderboard",
-                        "link": reverse_lazy("admin:cms_upcomingfeatureinteresteduser_changelist"),
-                    }
-                ],
-            },
-            {
-                "title": _("CMS Management"),
-                "separator": True,  # Top border
-                "collapsible": True,  # Collapsible group of links
-                "items": [
-
-                    {
-                        "title": _("Hero Sections"),
-                        "icon": "rewarded_ads",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("admin:cms_herosection_changelist"),
-                    },
-                    {
-                        "title": _("Brands"),
-                        "icon": "branding_watermark",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("admin:cms_brand_changelist"),
-                    },
-                    {
-                        "title": _("Features"),
-                        "icon": "star",
-                        "link": reverse_lazy("admin:cms_feature_changelist"),
-                    },
-                    {
-                        "title": _("How It Works Features"),
-                        "icon": "info",
-                        "link": reverse_lazy("admin:cms_howitworkfeature_changelist"),
-                    },
-                    {
-                        "title": _("How It Works"),
-                        "icon": "how_to_reg",
-                        "link": reverse_lazy("admin:cms_howitwork_changelist"),
-                    },
-                    {
-                        "title": _("Testimonials"),
-                        "icon": "rate_review",
-                        "link": reverse_lazy("admin:cms_testimonial_changelist")
-                    },
-                    {
-                        "title": _("Benefits"),
-                        "icon": "check_circle",
-                        "link": reverse_lazy("admin:cms_benefit_changelist"),
-                    },
-                    {
-                        "title": _("FAQs"),
-                        "icon": "help",
-                        "link": reverse_lazy("admin:cms_faq_changelist"),
-                    },
-                    {
-                        "title": _("Pages"),
-                        "icon": "description",
-                        "link": reverse_lazy("admin:cms_page_changelist"),
-                    },
-                                    {
-                        "title": _("Interview Coach Section"),
-                        "icon": "eyeglasses",
-                        "link": reverse_lazy("admin:cms_interviewcoachsection_changelist"),
-                    },
-                    {
-                        "title": _("Global CTA"),
-                        "icon": "call_to_action",
-                        "link": reverse_lazy("admin:cms_globalcta_changelist"),
-                    },
-                    {
-                        "title": _("Footer"),
-                        "icon": "page_footer",
-                        "link": reverse_lazy("admin:cms_footer_changelist"),
-                    },
-
-                ],
-            },
-            {
-                "title": _("Subscription Management"),
-                "separator": True,  # Top border
-                "collapsible": True,  # Collapsible group of links
-                "items": [
-
-                    {
-                        "title": _("Features"),
-                        "icon": "star",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("admin:subscriptions_feature_changelist"),
-                    },
-                    {
-                        "title": _("Packages"),
-                        "icon": "package",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("admin:subscriptions_package_changelist"),
-                    },
-                    {
-                        "title" : _("Subscriptions"),
-                        "icon": "subscriptions",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("admin:subscriptions_subscription_changelist"),
-                    }
-                ],
-            },
-           
-            {
-                "title": _("Payment History"),
-                "separator": True,  # Top border
-                "collapsible": True,  # Collapsible group of links
-                "items": [
-                    {
-                        "title": _("Payments"),
-                        "icon": "payments",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("admin:subscriptions_paymenthistory_changelist"),
-                    },
-                    
-                ],
-            },
-           
-
-            {
-                "title": _("AI Helper"),
-                "separator": True,  # Top border
-                "collapsible": True,  # Collapsible group of links
-                "items": [
-                    {
-                        "title": _("Suggested Questions"),
-                        "icon": "list",
-                        "link": reverse_lazy("admin:ai_helper_suggestedquestion_changelist"),
-              
-                    },
-                    {
-                        "title": _("Chat History"),
-                        "icon": "list",
-                        "link": reverse_lazy("admin:ai_helper_chathistory_changelist"),
-
-                    },
                    
                 ],
             },
+           
+            # {
+            #     "title": _("Subscription Management"),
+            #     "separator": True,  # Top border
+            #     "collapsible": True,  # Collapsible group of links
+            #     "items": [
+
+            #         {
+            #             "title": _("Features"),
+            #             "icon": "star",  # Supported icon set: https://fonts.google.com/icons
+            #             "link": reverse_lazy("admin:subscriptions_feature_changelist"),
+            #         },
+            #         {
+            #             "title": _("Packages"),
+            #             "icon": "package",  # Supported icon set: https://fonts.google.com/icons
+            #             "link": reverse_lazy("admin:subscriptions_package_changelist"),
+            #         },
+            #         {
+            #             "title" : _("Subscriptions"),
+            #             "icon": "subscriptions",  # Supported icon set: https://fonts.google.com/icons
+            #             "link": reverse_lazy("admin:subscriptions_subscription_changelist"),
+            #         }
+            #     ],
+            # },
+           
+            # {
+            #     "title": _("Payment History"),
+            #     "separator": True,  # Top border
+            #     "collapsible": True,  # Collapsible group of links
+            #     "items": [
+            #         {
+            #             "title": _("Payments"),
+            #             "icon": "payments",  # Supported icon set: https://fonts.google.com/icons
+            #             "link": reverse_lazy("admin:subscriptions_paymenthistory_changelist"),
+            #         },
+                    
+            #     ],
+            # },
+           
+
+            # {
+            #     "title": _("AI Helper"),
+            #     "separator": True,  # Top border
+            #     "collapsible": True,  # Collapsible group of links
+            #     "items": [
+            #         {
+            #             "title": _("Suggested Questions"),
+            #             "icon": "list",
+            #             "link": reverse_lazy("admin:ai_helper_suggestedquestion_changelist"),
+              
+            #         },
+            #         {
+            #             "title": _("Chat History"),
+            #             "icon": "list",
+            #             "link": reverse_lazy("admin:ai_helper_chathistory_changelist"),
+
+            #         },
+                   
+            #     ],
+            # },
            
         ],
     },
