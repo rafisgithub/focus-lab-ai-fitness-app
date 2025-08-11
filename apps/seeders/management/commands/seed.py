@@ -5,23 +5,7 @@ from apps.subscriptions.seed_data import (
 )
 from apps.system_setting.seed_system_setting import seed_about_system, seed_social_media, seed_smtp_credentials
 from apps.users.seed_data import seed_users
-from apps.cms.seed_data import (
-    how_it_work_feature_seed,
-    seed_brands,
-    seed_faqs,
-    seed_features,
-    seed_footer,
-    seed_testimonials,
-    seed_benefits,
-    seed_pages,
-    seed_hero_section,
-    how_it_work_seed,
-    seed_interview_coach_section,
-    seed_interview_coach_section,
-    seed_upcoming_feature_interested_user,
-    seed_global_cta
-)
-from apps.ai_helper.seed_data import seed_suggested_questions, seed_chat_history
+from apps.workouts.seed_data import seed_categories,seed_workouts
 
 
 class Command(BaseCommand):
@@ -29,9 +13,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         seed_users()
+<<<<<<< HEAD
         seed_about_system()
         seed_social_media()
         seed_smtp_credentials()
+=======
+        seed_categories()
+        seed_workouts()
+>>>>>>> fb184061f2be0b09bc974f2c27f11c9df122377a
         # seed_hero_section()
         # seed_brands()
         # seed_features()

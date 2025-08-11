@@ -69,13 +69,12 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "apps.seeders",
     "apps.users",
-    "apps.cms",
     "apps.subscriptions",
     "django_select2",
     "import_export",
-    "apps.ai_helper",
     "apps.dashboard",
     "apps.system_setting",
+    "apps.workouts",
 ]
 
 MIDDLEWARE = [
@@ -357,26 +356,25 @@ UNFOLD = {
             # },
            
 
-            # {
-            #     "title": _("AI Helper"),
-            #     "separator": True,  # Top border
-            #     "collapsible": True,  # Collapsible group of links
-            #     "items": [
-            #         {
-            #             "title": _("Suggested Questions"),
-            #             "icon": "list",
-            #             "link": reverse_lazy("admin:ai_helper_suggestedquestion_changelist"),
-              
-            #         },
-            #         {
-            #             "title": _("Chat History"),
-            #             "icon": "list",
-            #             "link": reverse_lazy("admin:ai_helper_chathistory_changelist"),
-
-            #         },
-                   
-            #     ],
-            # },
+            {
+                "title": _("Workouts"),
+                "separator": True, 
+                "collapsible": True, 
+                "items": [
+                    {
+                        "title": _("Categories"),
+                        "icon": "category", 
+                        "link": reverse_lazy("admin:workouts_category_changelist"),
+                    },
+                  
+                    {
+                        "title": _("All Workouts"),
+                        "icon": "list",
+                        "link": reverse_lazy("admin:workouts_workout_changelist"),
+                    },
+                    
+                ],
+            },
            
         ],
     },
