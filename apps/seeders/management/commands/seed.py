@@ -3,6 +3,7 @@ from apps.subscriptions.seed_data import (
     seed_subscription_features,
     seed_subscription_packages,
 )
+from apps.system_setting.seed_system_setting import seed_about_system, seed_social_media, seed_smtp_credentials
 from apps.users.seed_data import seed_users
 from apps.cms.seed_data import (
     how_it_work_feature_seed,
@@ -28,6 +29,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         seed_users()
+        seed_about_system()
+        seed_social_media()
+        seed_smtp_credentials()
         # seed_hero_section()
         # seed_brands()
         # seed_features()

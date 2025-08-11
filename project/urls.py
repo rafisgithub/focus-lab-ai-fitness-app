@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/', include('apps.cms.urls')),
     path('api/', include('apps.subscriptions.urls')),
     path('api/', include('apps.ai_helper.urls')),
+    path('api/', include('apps.system_setting.urls')),
 ]
 
 if settings.DEBUG:

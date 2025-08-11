@@ -19,7 +19,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
 import os
-
+from apps.system_setting.admin_profile import update_profile
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     "import_export",
     "apps.ai_helper",
     "apps.dashboard",
+    "apps.system_setting",
 ]
 
 MIDDLEWARE = [
@@ -281,6 +282,39 @@ UNFOLD = {
                         "link": reverse_lazy("admin:users_user_changelist"),
                     },
                    
+                ],
+            },
+            {
+                "title": _("System Setting"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Update Profile"),
+                        "icon": "edit",
+                        "link": lambda req: update_profile(req),
+                    },
+                    {
+                        "title": _("About System"),
+                        "icon": "info",
+                        "link": reverse_lazy(
+                            "admin:system_setting_aboutsystem_changelist"
+                        ),
+                    },
+                    {
+                        "title": _("Social Media"),
+                        "icon": "share",
+                        "link": reverse_lazy(
+                            "admin:system_setting_socialmedia_changelist"
+                        ),
+                    },
+                    {
+                        "title": _("SMTP Settings"),
+                        "icon": "email",
+                        "link": reverse_lazy(
+                            "admin:system_setting_smtpsetting_changelist"
+                        ),
+                    },
                 ],
             },
            

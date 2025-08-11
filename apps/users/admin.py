@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
-from .models import User
+from .models import User, UserProfile
 from django.utils.html import format_html
 @admin.register(User)
 class CustomAdminClass(ModelAdmin):
@@ -19,3 +19,7 @@ class CustomAdminClass(ModelAdmin):
         if obj.profile.avatar:
             return format_html('<img src="{}" style="max-height: 50px; max-width: 100px;" />', obj.profile.avatar.url)
         return "No Image"
+    
+@admin.register(UserProfile)
+class UserProfileAdmin(ModelAdmin):
+    pass
