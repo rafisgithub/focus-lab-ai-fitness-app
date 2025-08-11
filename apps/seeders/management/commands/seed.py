@@ -4,7 +4,7 @@ from apps.subscriptions.seed_data import (
     seed_subscription_packages,
 )
 from apps.users.seed_data import seed_users
-
+from apps.workouts.seed_data import seed_categories,seed_workouts
 
 
 class Command(BaseCommand):
@@ -12,6 +12,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         seed_users()
+        seed_categories()
+        seed_workouts()
         # seed_hero_section()
         # seed_brands()
         # seed_features()
