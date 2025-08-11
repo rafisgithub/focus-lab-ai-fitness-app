@@ -69,11 +69,9 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "apps.seeders",
     "apps.users",
-    "apps.cms",
     "apps.subscriptions",
     "django_select2",
     "import_export",
-    "apps.ai_helper",
     "apps.dashboard",
 ]
 
