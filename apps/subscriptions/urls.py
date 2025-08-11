@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.urls import path
 
-from apps.cms.models import Feature
 
 from .views import (
     SubscriptionPackageAPIView,

@@ -4,23 +4,7 @@ from apps.subscriptions.seed_data import (
     seed_subscription_packages,
 )
 from apps.users.seed_data import seed_users
-from apps.cms.seed_data import (
-    how_it_work_feature_seed,
-    seed_brands,
-    seed_faqs,
-    seed_features,
-    seed_footer,
-    seed_testimonials,
-    seed_benefits,
-    seed_pages,
-    seed_hero_section,
-    how_it_work_seed,
-    seed_interview_coach_section,
-    seed_interview_coach_section,
-    seed_upcoming_feature_interested_user,
-    seed_global_cta
-)
-from apps.ai_helper.seed_data import seed_suggested_questions, seed_chat_history
+
 
 
 class Command(BaseCommand):
