@@ -9,7 +9,7 @@ class AboutSystemAPIView(APIView):
     def get(self, request):
 
         about_system = AboutSystem.objects.first()
-        print(about_system)
+   
         if about_system:
             serializer = AboutSystemSerializer(about_system)
             return success(serializer.data, "About system retrieved successfully.",200)

@@ -5,22 +5,22 @@ from .models import AboutSystem, DynamicPages, SMTPSetting, SocialMedia
 @admin.register(AboutSystem)
 
 class AboutSystemAdmin(ModelAdmin):
-    list_display = ("id", "name", "title", "email", "copyright", "preview_logo", "preview_favicon", "description",)
-    search_fields = ("id", "name", "title", "email", "copyright", "preview_logo", "preview_favicon", "description",)
-    list_display_links = ("id", "name", "title", "email", "copyright", "preview_logo", "preview_favicon", "description",)
+    list_display = ("id", "name", "title", "email", "copyright", "description",)
+    search_fields = ("id", "name", "title", "email", "copyright", "description",)
+    list_display_links = ("id", "name", "title", "email", "copyright", "description",)
 
     def has_add_permission(self, request):
         return False
 
-    def preview_logo(self, obj):
-        if obj.logo:
-            return format_html(f'<img src="{obj.logo.url}" width="50" height="50" />')
-        return "No Logo"
+    # def preview_logo(self, obj):
+    #     if obj.logo:
+    #         return format_html(f'<img src="{obj.logo.url}" width="50" height="50" />')
+    #     return "No Logo"
 
-    def preview_favicon(self, obj):
-        if obj.favicon:
-            return format_html(f'<img src="{obj.favicon.url}" width="50" height="50" />')
-        return "No Favicon"
+    # def preview_favicon(self, obj):
+    #     if obj.favicon:
+    #         return format_html(f'<img src="{obj.favicon.url}" width="50" height="50" />')
+    #     return "No Favicon"
 
 @admin.register(DynamicPages)
 class DynamicPagesAdmin(ModelAdmin):

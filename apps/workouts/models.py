@@ -12,11 +12,11 @@ class Workout(models.Model):
     class Gender(models.TextChoices):
         MALE = 'male', 'Male'
         FEMALE = 'female', 'Female'
-        OTHER = 'other', 'Other'
+        OTHER = 'male_and_female', 'Male and Female'
 
     title = models.CharField(max_length=255)
     category = models.ForeignKey(Category, related_name='workouts', on_delete=models.CASCADE)
-    gender = models.CharField(max_length=10, choices=Gender.choices)
+    gender = models.CharField(max_length=20, choices=Gender.choices)
     video = models.FileField(upload_to='workout_videos/')
 
     def __str__(self):

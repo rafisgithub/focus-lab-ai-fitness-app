@@ -3,39 +3,22 @@ from apps.subscriptions.seed_data import (
     seed_subscription_features,
     seed_subscription_packages,
 )
-from apps.system_setting.seed_system_setting import seed_about_system, seed_social_media, seed_smtp_credentials
 from apps.users.seed_data import seed_users
 from apps.workouts.seed_data import seed_categories,seed_workouts
-
+from apps.system_setting.seed_data import seed_about_system, seed_social_media, seed_smtp_credentials
 
 class Command(BaseCommand):
     help = "Seed data for users and brands"
 
     def handle(self, *args, **kwargs):
         seed_users()
-<<<<<<< HEAD
+        seed_categories()
+        seed_workouts()
         seed_about_system()
         seed_social_media()
         seed_smtp_credentials()
-=======
-        seed_categories()
-        seed_workouts()
->>>>>>> fb184061f2be0b09bc974f2c27f11c9df122377a
-        # seed_hero_section()
-        # seed_brands()
-        # seed_features()
-        # seed_testimonials()
-        # seed_benefits()
+
         # seed_subscription_features()
         # seed_subscription_packages()
-        # seed_faqs()
-        # seed_suggested_questions()
-        # seed_pages()
-        # seed_chat_history()
-        # how_it_work_feature_seed()
-        # how_it_work_seed()
-        # seed_interview_coach_section()
-        # seed_footer()
-        # seed_upcoming_feature_interested_user()
-        # seed_global_cta()
+     
         self.stdout.write(self.style.SUCCESS("Seeding completed."))

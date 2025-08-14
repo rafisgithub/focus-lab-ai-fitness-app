@@ -7,8 +7,8 @@ class AboutSystem(models.Model):
     title = models.CharField(max_length=255)
     email = models.EmailField()
     copyright = models.CharField(max_length=255)
-    logo = models.ImageField(upload_to='about_system/logos/', blank=True, null=True)
-    favicon = models.ImageField(upload_to='about_system/favicons/', blank=True, null=True)
+    logo = models.ImageField(upload_to='about_system/logo/', blank=True, null=True)
+    favicon = models.ImageField(upload_to='about_system/favicon/', blank=True, null=True)
     description = models.TextField()
 
     def __str__(self):
@@ -55,4 +55,4 @@ class SMTPSetting(models.Model):
 class SocialMedia(models.Model):
     name = models.CharField(max_length=255)
     url = models.URLField()
-    icon = models.ImageField(upload_to='social_media/icons/', blank=True, null=True)
+    icon = models.ImageField(upload_to='about_system/social_media/', blank=True, null=True)

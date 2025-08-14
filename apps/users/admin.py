@@ -17,9 +17,10 @@ class CustomAdminClass(ModelAdmin):
 
     def preview_user_image(self, obj):
         if obj.profile.avatar:
+            return format_html('<img src="{}" style="max-height: 50px; max-width: 50px;" />', obj.profile.avatar.url)
+        return "No Image"
+
+@admin.register(UserProfile)
+class ProfileAdmin(ModelAdmin):
             return format_html('<img src="{}" style="max-height: 50px; max-width: 100px;" />', obj.profile.avatar.url)
         return "No Image"
-    
-@admin.register(UserProfile)
-class UserProfileAdmin(ModelAdmin):
-    pass
