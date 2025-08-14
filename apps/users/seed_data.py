@@ -8,6 +8,7 @@ def seed_users():
             "password": "12345678",
             "is_staff": True,
             "is_superuser": True,
+            "gender": "male",
             "userprofile": {
                 "first_name": "Admin",
                 "last_name": "User",
@@ -42,7 +43,7 @@ def seed_users():
             "email": "user3@user3.com",
             "password": "12345678",
             "is_staff": False,
-            "gender": "male_and_female",
+            "gender": "female",
             "is_superuser": False,
             "userprofile": {
                 "first_name": "User",
@@ -54,7 +55,7 @@ def seed_users():
             "email": "user4@user4.com",
             "password": "12345678",
             "is_staff": False,
-            "gender": "male_and_female",
+            "gender": "male",
             "is_superuser": False,
             "userprofile": {
                 "first_name": "User",
@@ -69,6 +70,7 @@ def seed_users():
             email=user["email"],
             password=user["password"],
             is_staff=user["is_staff"],
+            gender=user["gender"],
             is_superuser=user["is_superuser"],
         )
 
