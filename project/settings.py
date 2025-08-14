@@ -17,10 +17,7 @@ from pathlib import Path
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,50 +32,45 @@ SECRET_KEY = "django-insecure-_(4sk(m(!$$xxvz)-7!b7ibkz&2sotl0#=hv8+e*_^__qzgs18
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']  # Accept all hosts temporarily
+ALLOWED_HOSTS = ["*"]  # Accept all hosts temporarily
 
 CORS_ALLOW_ALL_ORIGINS = True
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.ngrok-free.app",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
-
-
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "corsheaders",
-    "unfold",  # before django.contrib.admin
-    "unfold.contrib.filters",  # optional, if special filters are needed
-    "unfold.contrib.forms",  # optional, if special form elements are needed
-    "unfold.contrib.inlines",  # optional, if special inlines are needed
-    "unfold.contrib.import_export",  # optional, if django-import-export package is used
-    "unfold.contrib.guardian",  # optional, if django-guardian package is used
-    "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
-    "django.contrib.admin",  # required
+    # unfold packages
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "unfold.contrib.import_export",
+    "unfold.contrib.guardian",
+    "unfold.contrib.simple_history",
+
+    # django packages
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # external packages
     "rest_framework",
     "rest_framework_simplejwt",
+
+    # internal apps
     "apps.seeders",
     "apps.users",
+    "apps.system_setting",
     "apps.subscriptions",
-    "django_select2",
-    "import_export",
-    "apps.dashboard",
-    "apps.workouts",
+    "apps.workouts"
+
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -86,8 +78,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "project.urls"
@@ -143,13 +134,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGES = (
-    ('en', 'English'),
-    ('de', 'German'),  # de = Deutsch
-)
-
-# LANGUAGE_CODE = 'de'  # Default language (German in your case)
-
 
 LANGUAGE_CODE = "en-us"
 
@@ -163,20 +147,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
+
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / "static",
 ]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 
 # auth user model
@@ -190,190 +176,28 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "EXCEPTION_HANDLER": "apps.utils.custom_exception.custom_exception_handler",
-
 }
 
 
 # JWT
 SIMPLE_JWT = {
-     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
-     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
 }
 
 
 # email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'towhidulislam.mail@gmail.com'
-EMAIL_HOST_PASSWORD = 'bdui nxzn dogt fqxl'
-
-
-
-
-UNFOLD = {
-    "SITE_TITLE": "Focus Lab AI Fitness App",
-    "SITE_HEADER": "Appears in sidebar at the top",
-    "SITE_SUBHEADER": "Appears under SITE_HEADER",
-    "DASHBOARD_CALLBACK": "apps.dashboard.views.dashboard_callback",
-    "SITE_DROPDOWN": [
-        {
-            "icon": "diamond",
-            "title": _("My site"),
-            "link": "https://clevercv.netlify.app",
-            "target": "_blank",
-        },
-        # ...
-    ],
-    "SITE_URL": "/",
-    # "SITE_ICON": lambda request: static("icon.svg"),  # both modes, optimise for 32px height
-    "SITE_ICON": {
-        "light": lambda request: static("icon-light.svg"),  # light mode
-        "dark": lambda request: static("icon-dark.svg"),  # dark mode
-    },
-    # "SITE_LOGO": lambda request: static("logo.svg"),  # both modes, optimise for 32px height
-    "SITE_LOGO": {
-        "light": lambda request: static("logo-light.svg"),  # light mode
-        "dark": lambda request: static("logo-dark.svg"),  # dark mode
-    },
-    "SITE_SYMBOL": "speed",  # symbol from icon set
-    "SITE_FAVICONS": [
-        {
-            "rel": "icon",
-            "sizes": "32x32",
-            "type": "image/svg+xml",
-            "href": lambda request: static("favicon.svg"),
-        },
-    ],
-    "SHOW_HISTORY": True, # show/hide "History" button, default: True
-    "SHOW_VIEW_ON_SITE": True, # show/hide "View on site" button, default: True
-    "SHOW_BACK_BUTTON": False, # show/hide "Back" button on changeform in header, default: False
-  
-    # "THEME": "light",
-    "LOGIN": {
-        "image": lambda request: static("sample/login-bg.jpg"),
-        "redirect_after": lambda request: reverse_lazy("admin:APP_MODEL_changelist"),
-    },
-
-    "BORDER_RADIUS": "6px",
-   
-   
-    "SIDEBAR": {
-        "show_search": False,  # Search in applications and models names
-        "show_all_applications": False,  # Dropdown with all applications and models
-        "navigation": [
-            {
-                "title": _("User Management"),
-                "separator": True,  # Top border
-                "collapsible": True,  # Collapsible group of links
-                "items": [
-                    {
-                        "title": _("Dashboard"),
-                        "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
-                        "link": reverse_lazy("admin:index"),
-                        "permission": lambda request: request.user.is_superuser,
-                    },
-                    {
-                        "title": _("Users"),
-                        "icon": "people",
-                        "link": reverse_lazy("admin:users_user_changelist"),
-                    },
-                   
-                ],
-            },
-           
-            # {
-            #     "title": _("Subscription Management"),
-            #     "separator": True,  # Top border
-            #     "collapsible": True,  # Collapsible group of links
-            #     "items": [
-
-            #         {
-            #             "title": _("Features"),
-            #             "icon": "star",  # Supported icon set: https://fonts.google.com/icons
-            #             "link": reverse_lazy("admin:subscriptions_feature_changelist"),
-            #         },
-            #         {
-            #             "title": _("Packages"),
-            #             "icon": "package",  # Supported icon set: https://fonts.google.com/icons
-            #             "link": reverse_lazy("admin:subscriptions_package_changelist"),
-            #         },
-            #         {
-            #             "title" : _("Subscriptions"),
-            #             "icon": "subscriptions",  # Supported icon set: https://fonts.google.com/icons
-            #             "link": reverse_lazy("admin:subscriptions_subscription_changelist"),
-            #         }
-            #     ],
-            # },
-           
-            # {
-            #     "title": _("Payment History"),
-            #     "separator": True,  # Top border
-            #     "collapsible": True,  # Collapsible group of links
-            #     "items": [
-            #         {
-            #             "title": _("Payments"),
-            #             "icon": "payments",  # Supported icon set: https://fonts.google.com/icons
-            #             "link": reverse_lazy("admin:subscriptions_paymenthistory_changelist"),
-            #         },
-                    
-            #     ],
-            # },
-           
-
-            {
-                "title": _("Workouts"),
-                "separator": True, 
-                "collapsible": True, 
-                "items": [
-                    {
-                        "title": _("Categories"),
-                        "icon": "category", 
-                        "link": reverse_lazy("admin:workouts_category_changelist"),
-                    },
-                  
-                    {
-                        "title": _("All Workouts"),
-                        "icon": "list",
-                        "link": reverse_lazy("admin:workouts_workout_changelist"),
-                    },
-                    
-                ],
-            },
-           
-        ],
-    },
-  
-}
-
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-
-
+EMAIL_HOST_USER = "towhidulislam.mail@gmail.com"
+EMAIL_HOST_PASSWORD = "bdui nxzn dogt fqxl"
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'django_app.log'), # This defines the log file path
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'your_app_name': { # Example for a custom app logger
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    },
-}
+
+from project import unfold_config
+UNFOLD = unfold_config.get_unfold_settings()
