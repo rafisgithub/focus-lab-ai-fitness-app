@@ -11,7 +11,7 @@ def seed_users():
             "userprofile": {
                 "first_name": "Admin",
                 "last_name": "User",
-                "avatar": "media/avatars/1.png",
+                "avatar": "avatars/1.jpg",
             },
         },
         {
@@ -23,7 +23,7 @@ def seed_users():
             "userprofile": {
                 "first_name": "User",
                 "last_name": "User",
-                "avatar": "media/avatars/1.png",
+                "avatar": "avatars/2.jpg",
             },
         },
         {
@@ -35,10 +35,33 @@ def seed_users():
             "userprofile": {
                 "first_name": "User",
                 "last_name": "User",
-                "avatar": "media/avatars/1.png",
+                "avatar": "avatars/3.jpg",
             },
         },
-       
+        {
+            "email": "user3@user3.com",
+            "password": "12345678",
+            "is_staff": False,
+            "gender": "male_and_female",
+            "is_superuser": False,
+            "userprofile": {
+                "first_name": "User",
+                "last_name": "User",
+                "avatar": "avatars/4.jpg",
+            },
+        },
+        {
+            "email": "user4@user4.com",
+            "password": "12345678",
+            "is_staff": False,
+            "gender": "male_and_female",
+            "is_superuser": False,
+            "userprofile": {
+                "first_name": "User",
+                "last_name": "User",
+                "avatar": "avatars/5.jpg",
+            },
+        }
     ]
 
     for user in user_data:
@@ -57,4 +80,4 @@ def seed_users():
         )
 
        
-    print("User data seeded successfully.")
+    print("✅User data seeded successfully.")
