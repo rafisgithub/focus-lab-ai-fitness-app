@@ -83,6 +83,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "project.urls"
 
+
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -201,3 +203,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 from project import unfold_config
 UNFOLD = unfold_config.get_unfold_settings()
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://d3aab1547b52.ngrok-free.app",
+]
