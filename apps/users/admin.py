@@ -22,5 +22,4 @@ class CustomAdminClass(ModelAdmin):
 
 @admin.register(UserProfile)
 class ProfileAdmin(ModelAdmin):
-            return format_html('<img src="{}" style="max-height: 50px; max-width: 100px;" />', obj.profile.avatar.url)
-        return "No Image"
+    pass
