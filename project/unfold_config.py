@@ -27,10 +27,12 @@ def get_unfold_settings():
             "href": lambda request: get_about_system().favicon.url,
             },
         ],
+        "DASHBOARD_CALLBACK": "apps.dashboard.views.dashboard_callback",
+
         "SHOW_HISTORY": True,  # show/hide "History" button, default: True
         "SHOW_VIEW_ON_SITE": True,  # show/hide "View on site" button, default: True
         "SHOW_BACK_BUTTON": True,  # show/hide "Back" button on changeform in header, default: False
-        "THEME": "light",
+   
         "LOGIN": {
             "image": lambda request: static("sample/login-bg.jpg"),
             "redirect_after": lambda request: reverse_lazy("admin:APP_MODEL_changelist"),

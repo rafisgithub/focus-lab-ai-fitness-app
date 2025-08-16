@@ -32,9 +32,16 @@ SECRET_KEY = "django-insecure-_(4sk(m(!$$xxvz)-7!b7ibkz&2sotl0#=hv8+e*_^__qzgs18
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]  # Accept all hosts temporarily
+ALLOWED_HOSTS = ['*']  # Accept all hosts temporarily
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://862600b59d17.ngrok-free.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 
 
 # Application definition
@@ -66,7 +73,8 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.system_setting",
     "apps.subscriptions",
-    "apps.workouts"
+    "apps.workouts",
+    "apps.dashboard"
 
 ]
 
@@ -203,7 +211,3 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 from project import unfold_config
 UNFOLD = unfold_config.get_unfold_settings()
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://d3aab1547b52.ngrok-free.app",
-]

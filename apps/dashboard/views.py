@@ -9,14 +9,9 @@ def dashboard_callback(request, context):
     now = timezone.now()
 
     start_of_month = now.replace(day=1)
-    total_subscribers = Subscription.objects.count()
-    total_new_subscriptions = Subscription.objects.filter(
-        created_at__gte=start_of_month,
-    )
-
-    income_report = IncomeReport.objects.first()
-    total_income = income_report.total_income if income_report else 0
-
+    total_subscribers = 12
+    total_new_subscriptions = 122
+    total_income = 23
     if now.month == 12:
         start_of_next_month = now.replace(year=now.year + 1, month=1, day=1)
     else:
@@ -27,7 +22,7 @@ def dashboard_callback(request, context):
             "total_users": User.objects.count(),
             "total_subscriptions": total_subscribers,
             "total_income": total_income,
-            "total_new_subscriptions": total_new_subscriptions.count(),
+            "total_new_subscriptions": total_new_subscriptions,
             "current_month_signups": User.objects.filter(
                 date_joined__gte=start_of_month,
                 date_joined__lt=start_of_next_month
