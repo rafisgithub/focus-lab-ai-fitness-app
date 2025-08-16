@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/', include('apps.users.urls')),
     path('api/', include('apps.system_setting.urls')),
     path('api/', include('apps.onboarding.urls')),
+    path('api/', include('apps.workouts.urls')),
     path('', admin.site.urls),
 ]
 
