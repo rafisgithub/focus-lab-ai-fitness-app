@@ -17,7 +17,9 @@ from pathlib import Path
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -204,7 +206,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "towhidulislam.mail@gmail.com"
 EMAIL_HOST_PASSWORD = "bdui nxzn dogt fqxl"
-
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
