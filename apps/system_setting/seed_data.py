@@ -1,4 +1,4 @@
-from apps.system_setting.models import AboutSystem, SMTPSetting, SocialMedia
+from apps.system_setting.models import AboutSystem, Page, SMTPSetting, SocialMedia
 
 def seed_about_system():
 
@@ -44,3 +44,16 @@ def seed_smtp_credentials():
 
     SMTPSetting.objects.get_or_create(defaults=smtp_credentials)
     print("✅ SMTP Credentials seeded successfully.")
+
+
+def seed_pages():
+    pages = [
+        {"title": "Terms and Conditions", "content": "Your terms and conditions here.", "type": "terms_and_conditions"},
+        {"title": "Privacy Policy", "content": "Your privacy policy here.", "type": "privacy_policy"},
+        {"title": "Imprint", "content": "Your imprint here.", "type": "imprint"},
+    ]
+
+    for page in pages:
+        Page.objects.get_or_create(**page)
+
+    print("✅ Pages seeded successfully.")

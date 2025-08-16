@@ -117,6 +117,13 @@ def get_unfold_settings():
                                 "admin:system_setting_smtpsetting_changelist"
                             ),
                         },
+                        {
+                            "title": _("Pages"),
+                            "icon": "page_control",
+                            "link": reverse_lazy(
+                                "admin:system_setting_page_changelist"
+                            ),
+                        }
                     ],
                 },
                
