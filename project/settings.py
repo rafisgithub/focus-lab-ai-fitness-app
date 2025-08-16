@@ -74,7 +74,6 @@ INSTALLED_APPS = [
     "apps.seeders",
     "apps.users",
     "apps.system_setting",
-    "apps.subscriptions",
     "apps.workouts",
     "apps.dashboard"
 
