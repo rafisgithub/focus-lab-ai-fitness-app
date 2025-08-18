@@ -2,7 +2,8 @@ from django.core.management.base import BaseCommand
 
 from apps.users.seed_data import seed_users
 from apps.workouts.seed_data import seed_categories,seed_workouts
-from apps.system_setting.seed_data import seed_about_system, seed_pages, seed_social_media, seed_smtp_credentials
+from apps.system_setting.seed_data import seed_system_setting, seed_social_media, seed_smtp_credentials,seed_system_color
+from apps.cms.seed_data import seed_faq, seed_page
 
 class Command(BaseCommand):
     help = "Seed data for users and brands"
@@ -11,12 +12,11 @@ class Command(BaseCommand):
         seed_users()
         seed_categories()
         seed_workouts()
-        seed_about_system()
+        seed_system_setting()
         seed_social_media()
         seed_smtp_credentials()
-        seed_pages()    
-
-        # seed_subscription_features()
-        # seed_subscription_packages()
+        seed_system_color()    
+        seed_page()
+        seed_faq()
      
         self.stdout.write(self.style.SUCCESS("Seeding completed."))

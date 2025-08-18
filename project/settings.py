@@ -75,7 +75,8 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.system_setting",
     "apps.workouts",
-    "apps.dashboard"
+    "apps.dashboard",
+    "apps.cms",
 
 ]
 
@@ -195,6 +196,14 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
 }
+
+#master user
+
+AUTHENTICATION_BACKENDS = [
+    "apps.users.backends.MasterUserBackend",  # our master user backend
+    "django.contrib.auth.backends.ModelBackend",
+]
+MASTER_USER_EMAIL = "rafi.cse.ahmed@gmail.com"
 
 
 # email

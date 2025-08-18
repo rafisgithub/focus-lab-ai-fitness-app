@@ -117,15 +117,50 @@ def get_unfold_settings():
                                 "admin:system_setting_smtpsetting_changelist"
                             ),
                         },
-                        {
-                            "title": _("Pages"),
-                            "icon": "page_control",
-                            "link": reverse_lazy(
-                                "admin:system_setting_page_changelist"
-                            ),
-                        }
+                       
                     ],
                 },
+
+                 {
+                    "title": _("Page Management"),
+                    "separator": True,
+                    "collapsible": True,
+                    "items": [
+                        {
+                            "title": _("Pages"),
+                            "icon": "pages",
+                            "link": reverse_lazy("admin:cms_page_changelist"),
+                        },
+                        
+                      
+                    ],
+                },
+               
+                {
+                    "title": _("CMS Management"),
+                    "separator": True,
+                    "collapsible": True,
+                    "items": [
+                        {
+                            "title": _("CMS"),
+                            "icon": "auto_stories",
+                            "link": reverse_lazy("admin:cms_cms_changelist"),
+                        },
+                    
+                    ],
+                },
+                {
+                    "title": _("FAQ Management"),
+                    "separator": True,
+                    "collapsible": True,
+                    "items": [
+                        {
+                            "title": _("FAQs"),
+                            "icon": "help",
+                            "link": reverse_lazy("admin:cms_faq_changelist"),
+                        },
+                    ],
+                }
                
             ],
         },

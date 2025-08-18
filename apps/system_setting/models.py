@@ -58,19 +58,10 @@ class SocialMedia(models.Model):
     icon = models.ImageField(upload_to='about_system/social_media/', blank=True, null=True)
 
 
-class Page(models.Model):
-    class Type(models.TextChoices):
-        TERMSANDCONDITIONS = 'terms_and_conditions', 'Terms and Conditions'
-        PRIVACYPOLICY = 'privacy_policy', 'Privacy Policy'
-        IMPRINT = 'imprint', 'Imprint'
-
-    title = models.CharField(max_length=255, unique=True)
-    content = models.TextField()
-    type = models.CharField(
-        max_length=50,
-        choices=Type.choices,
-    )
+class SystemColor(models.Model):
+    name = models.CharField(max_length=255)
+    code = models.CharField(max_length=7)
     is_active = models.BooleanField(default=True)
-    
+
     def __str__(self):
-        return self.title
+        return self.name
