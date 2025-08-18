@@ -1,5 +1,4 @@
 from django.shortcuts import render, HttpResponse
-from apps.subscriptions.models import IncomeReport, Subscription
 from apps.users.models import User
 from django.utils import timezone
 from datetime import datetime

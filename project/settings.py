@@ -39,7 +39,7 @@ ALLOWED_HOSTS = ['*']  # Accept all hosts temporarily
 CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://862600b59d17.ngrok-free.app",
+    "https://70f9896d15eb.ngrok-free.app",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
