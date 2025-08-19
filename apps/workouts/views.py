@@ -3,7 +3,7 @@ import base64
 from openai import OpenAI
 from apps.workouts.models import Category, Macros,MealPlan, Meal, SuggestedWorkout, Swaps, Workout,Hydration, UserMealPlan
 from rest_framework.views import APIView
-from apps.workouts.serializers import WorkoutSerializer, CategorySerializer
+from apps.workouts.serializers import WorkoutSerializer, CategorySerializer, MealPlanSerializer
 from apps.utils.helpers import success, error
 from rest_framework.permissions import IsAuthenticated
 import ast
@@ -45,6 +45,23 @@ class SuggestedWorkoutAPIView(APIView):
 
         return success(serializer.data, "Suggested workouts retrieved successfully.", 200)
 
+
+class SuggestMealPlanAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        # Logic to suggest a meal plan for the user
+        user = request.user
+        
+        # You can modify this logic to fetch a specific meal plan suggestion based on some criteria
+        meal_plan = MealPlan.objects.filter(user=user).first()  # Fetches the user's first meal plan
+        
+        if not meal_plan:
+            return error({"detail": "No meal plan found for this user."}, status=404)
+        
+        # Serialize the meal plan data
+        serializer = MealPlanSerializer(meal_plan)
+        return success(serializer.data, message="Suggested meal plan retrieved successfully.")
 
 
 class CategoryAPIView(APIView):

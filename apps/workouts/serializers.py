@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Category, SuggestedWorkout, Workout
+from .models import Category, SuggestedWorkout, Workout,MealPlan, Macros, Meal, Swaps, Hydration, UserMealPlan
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,3 +14,39 @@ class WorkoutSerializer(serializers.ModelSerializer):
         model = Workout
         fields = "__all__"
 
+
+
+class MacrosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Macros
+        fields = ['protein', 'carbs', 'fat', 'fiber']
+
+
+class MealSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Meal
+        fields = ['meal', 'items', 'approx_kcal', 'protein_g']
+
+
+class SwapsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Swaps
+        fields = ['vegetarian', 'easy_options']
+
+
+class HydrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hydration
+        fields = ['hydration']
+
+
+class MealPlanSerializer(serializers.ModelSerializer):
+    macros_info = MacrosSerializer(read_only=True)
+    meals = MealSerializer(many=True, read_only=True)
+    swaps_info = SwapsSerializer(read_only=True)
+    hydration_info = HydrationSerializer(read_only=True)
+
+    class Meta:
+        model = MealPlan
+        fields = ['id', 'user', 'goal', 'calories', 'hydration', 'notes', 
+                  'macros_info', 'meals', 'swaps_info', 'hydration_info']

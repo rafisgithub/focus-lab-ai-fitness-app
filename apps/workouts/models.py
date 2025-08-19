@@ -1,5 +1,6 @@
 from django.db import models
 
+from apps.users import serializers
 from apps.users.models import User
 
 # Create your models here.
