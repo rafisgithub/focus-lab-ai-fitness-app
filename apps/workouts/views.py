@@ -24,6 +24,29 @@ class WorkoutAPIView(APIView):
         print(serializer.data)
         return success(serializer.data, "Workouts retrieved successfully.", 200)
 
+
+class SuggestedWorkoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        gender = user.gender
+        
+        suggested_workouts = SuggestedWorkout.objects.filter(user=user)
+
+        filtered_workouts = []
+
+        for suggested_workout in suggested_workouts:
+            workouts = Workout.objects.filter(category=suggested_workout.workout.category, gender=gender)
+
+            filtered_workouts.extend(workouts)
+
+        serializer = WorkoutSerializer(filtered_workouts, many=True)
+
+        return success(serializer.data, "Suggested workouts retrieved successfully.", 200)
+
+
+
 class CategoryAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -34,9 +57,23 @@ class CategoryAPIView(APIView):
             return error({"error": "No categories found for this user."}, 404)
         serializer = CategorySerializer(categories, many=True)
         return success(serializer.data, "Categories retrieved successfully.", 200)
+    
 
+class SearchWorkoutAPIView(APIView):
 
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        q = request.query_params.get("q", None)
+        if not q:
+            return error({"error": "No search query provided."}, 400)
+
+        workouts = Workout.objects.filter(title__icontains=q)
+        if not workouts:
+            return error({"error": "No workouts found matching the search query."}, 404)
+
+        serializer = WorkoutSerializer(workouts, many=True)
+        return success(serializer.data, "Workouts retrieved successfully.", 200)
 
 class UploadBodyImageAPIView(APIView):
     permission_classes = [IsAuthenticated]
