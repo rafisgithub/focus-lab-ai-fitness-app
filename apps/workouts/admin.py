@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
-from .models import Category, Workout
+from .models import Category, SuggestedWorkout, Workout
 from django.utils.html import format_html
 
 @admin.register(Category)
