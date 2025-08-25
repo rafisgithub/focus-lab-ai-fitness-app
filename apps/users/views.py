@@ -167,8 +167,7 @@ class ProfileGet(APIView):
         data = {
             'id': profile.id,
             'email': profile.user.email,
-            'first_name': profile.first_name,
-            'last_name': profile.last_name,
+            'full_name': profile.full_name,
             'accepted_terms': profile.accepted_terms,
             'avatar_url': profile.avatar.url if profile.avatar else None,
             'created_at': profile.created_at,
