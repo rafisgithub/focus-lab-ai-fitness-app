@@ -211,7 +211,8 @@ class UploadBodyImageAPIView(APIView):
                                         ]
 
                                         The workout categories should match one of the categories in the provided list.
-                                        """
+                                        Evry points should include proper imojis
+                                         """
 
                         },
                         {

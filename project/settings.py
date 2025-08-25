@@ -213,6 +213,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "towhidulislam.mail@gmail.com"
 EMAIL_HOST_PASSWORD = "bdui nxzn dogt fqxl"
+
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
