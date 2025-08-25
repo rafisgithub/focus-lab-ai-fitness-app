@@ -17,8 +17,7 @@ from apps.utils.helpers import error
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(required=False, allow_blank=True)
-    last_name = serializers.CharField(required=False, allow_blank=True)
+    full_name = serializers.CharField(required=False, allow_blank=True, max_length=30)
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
@@ -30,11 +29,10 @@ class SignUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'first_name', 'last_name', 'gender']
+        fields = ['email', 'password', 'full_name', 'gender']
 
     def create(self, validated_data):
-        first_name = validated_data.pop('first_name', '')
-        last_name = validated_data.pop('last_name', '')
+        full_name = validated_data.pop('full_name', '')
         email = validated_data.pop('email')
         password = validated_data.pop('password')
 
@@ -43,8 +41,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
         UserProfile.objects.create(
             user=user,
-            first_name=first_name,
-            last_name=last_name,
+            full_name=full_name
         )
 
         return user
@@ -52,8 +49,7 @@ class SignUpSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
             'id': instance.id,
-            'first_name': instance.profile.first_name,
-            'last_name': instance.profile.last_name,
+            'full_name': instance.profile.full_name,
             'email': instance.email,
         }
 
@@ -343,8 +339,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = [
             "user",
-            "first_name",
-            "last_name",
+            "full_name",
             "avatar",
             "created_at",
             "updated_at",

@@ -10,8 +10,7 @@ def seed_users():
             "is_superuser": True,
             "gender": "male",
             "userprofile": {
-                "first_name": "App ",
-                "last_name": "Creator",
+                "full_name": "App Creator",
                 "avatar": "avatars/1.jpg",
             },
         },
@@ -22,8 +21,7 @@ def seed_users():
             "is_superuser": True,
             "gender": "male",
             "userprofile": {
-                "first_name": "Admin",
-                "last_name": "User",
+                "full_name": "Admin User",
                 "avatar": "avatars/1.jpg",
             },
         },
@@ -34,8 +32,7 @@ def seed_users():
             "gender": "male",
             "is_superuser": False,
             "userprofile": {
-                "first_name": "User",
-                "last_name": "User",
+                "full_name": "User User",
                 "avatar": "avatars/2.jpg",
             },
         },
@@ -46,8 +43,7 @@ def seed_users():
             "gender": "female",
             "is_superuser": False,
             "userprofile": {
-                "first_name": "User",
-                "last_name": "User",
+                "full_name": "User User",
                 "avatar": "avatars/3.jpg",
             },
         },
@@ -58,8 +54,7 @@ def seed_users():
             "gender": "female",
             "is_superuser": False,
             "userprofile": {
-                "first_name": "User",
-                "last_name": "User",
+                "full_name": "User User",
                 "avatar": "avatars/4.jpg",
             },
         },
@@ -70,8 +65,7 @@ def seed_users():
             "gender": "male",
             "is_superuser": False,
             "userprofile": {
-                "first_name": "User",
-                "last_name": "User",
+                "full_name": "User User",
                 "avatar": "avatars/5.jpg",
             },
         }
@@ -88,8 +82,7 @@ def seed_users():
 
         UserProfile.objects.create(
             user=user_instance,
-            first_name=user["userprofile"]["first_name"],
-            last_name=user["userprofile"]["last_name"],
+            full_name=user["userprofile"]["full_name"],
             avatar=user["userprofile"]["avatar"],
         )
 
