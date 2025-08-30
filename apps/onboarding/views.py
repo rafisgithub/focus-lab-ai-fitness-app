@@ -1,3 +1,4 @@
+import os
 from rest_framework.views import APIView
 from apps.utils.helpers import success, error
 
@@ -6,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 import json
 from openai import OpenAI
+
+GPT_MODEL = os.getenv('GPT_MODEL', 'gpt-5-nano-2025-08-07')
 
 class OnboardingView(APIView):
     permission_classes = []
@@ -25,9 +28,9 @@ class OnboardingView(APIView):
             # Initialize OpenAI client
             client = OpenAI()
             
-            # Call GPT-3.5 API
+            # Call GPT-5 API
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=GPT_MODEL,
                 messages=[
                     {
                         "role": "system",

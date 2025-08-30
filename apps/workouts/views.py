@@ -1,5 +1,6 @@
 import ast
 import base64
+import os
 from openai import OpenAI
 from apps.workouts.models import Category, Macros,MealPlan, Meal, SuggestedWorkout, Swaps, Workout,Hydration, UserMealPlan
 from rest_framework.views import APIView
@@ -8,6 +9,7 @@ from apps.utils.helpers import success, error
 from rest_framework.permissions import IsAuthenticated
 import ast
 
+GPT_MODEL = os.getenv('GPT_MODEL', 'gpt-5-nano-2025-08-07')
 
 class WorkoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -116,7 +118,7 @@ class UploadBodyImageAPIView(APIView):
 
             # Make the OpenAI request
             response = client.responses.create(
-                model="gpt-5",  # GPT-5 multimodal model
+                model=GPT_MODEL,
                 input=[{
                     "role": "user",
                     "content": [
