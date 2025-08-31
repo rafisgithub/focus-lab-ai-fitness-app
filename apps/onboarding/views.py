@@ -34,7 +34,7 @@ class OnboardingView(APIView):
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a fitness assistant. Analyze the user's onboarding data and body image to provide personalized fitness recommendations and a beautiful meal plan"
+                        "content": "You are a fitness assistant. Analyze the user's onboarding data and body image to provide personalized fitness recommendations and a beautiful meal plan use proper emojis"
                     },
                     {
                         "role": "user",
