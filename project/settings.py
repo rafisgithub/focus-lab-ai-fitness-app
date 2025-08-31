@@ -40,6 +40,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.ngrok-free.app",
+    "http://172.16.200.94:9000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
