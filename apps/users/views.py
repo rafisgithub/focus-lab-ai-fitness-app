@@ -163,17 +163,8 @@ class ProfileGet(APIView):
             profile = UserProfile.objects.select_related('user').get(user=user)
         except UserProfile.DoesNotExist:
             return error(message="User profile not found.", code=status.HTTP_400_BAD_REQUEST)
-
-        data = {
-            'id': profile.id,
-            'email': profile.user.email,
-            'full_name': profile.full_name,
-            'accepted_terms': profile.accepted_terms,
-            'avatar_url': profile.avatar.url if profile.avatar else None,
-            'created_at': profile.created_at,
-            'updated_at': profile.updated_at,
-        }
-        return success(data=data, message="Profile retrieved successfully.", code=status.HTTP_200_OK)
+        serializer = UserProfileSerializer(profile)
+        return success(data=serializer.data, message="Profile retrieved successfully.", code=status.HTTP_200_OK)
 
 
 def dashboard_callback(request, context):
