@@ -216,6 +216,7 @@ EMAIL_HOST_USER = "towhidulislam.mail@gmail.com"
 EMAIL_HOST_PASSWORD = "bdui nxzn dogt fqxl"
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+GPT_MODEL = os.getenv('GPT_MODEL')
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
