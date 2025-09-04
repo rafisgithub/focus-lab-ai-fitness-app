@@ -8,6 +8,8 @@ from apps.workouts.serializers import WorkoutSerializer, CategorySerializer, Mea
 from apps.utils.helpers import success, error
 from rest_framework.permissions import IsAuthenticated
 import ast
+from django.core.files.base import ContentFile
+
 
 GPT_MODEL = os.getenv('GPT_MODEL', 'gpt-5-nano-2025-08-07')
 
@@ -296,8 +298,12 @@ class UploadBodyImageAPIView(APIView):
 
             # Check if previous_image_instance is not None before accessing .image
             if previous_image_instance:
-                previous_image = open(previous_image_instance.previous_image.path, "rb").read()
-                previous_image_for_db  = previous_image
+                with open(previous_image_instance.current_image.path, "rb") as f:
+                    previous_image = f.read()
+                
+                image_name = os.path.basename(previous_image_instance.current_image.path)
+                previous_image_for_db = ContentFile(previous_image, name=image_name)
+                
                 previous_image = base64.b64encode(previous_image).decode("utf-8")
             else:
                 previous_image = None  
