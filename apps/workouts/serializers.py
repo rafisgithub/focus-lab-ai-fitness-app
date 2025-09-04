@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, SuggestedWorkout, Workout,MealPlan, Macros, Meal, Swaps, Hydration, UserMealPlan
+from .models import Category, ProgressHistory, SuggestedWorkout, Workout,MealPlan, Macros, Meal, Swaps, Hydration, UserMealPlan
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -50,3 +50,9 @@ class MealPlanSerializer(serializers.ModelSerializer):
         model = MealPlan
         fields = ['id', 'user', 'goal', 'calories', 'hydration', 'notes', 
                   'macros_info', 'meals', 'swaps_info', 'hydration_info']
+        
+
+class ProgressHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgressHistory
+        fields = ['id','user','tips','differentiate_from_previous','current_analysis','status','previous_image','current_image','date']

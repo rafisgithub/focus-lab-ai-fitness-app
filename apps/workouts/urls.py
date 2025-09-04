@@ -9,7 +9,8 @@ from .views import (
    CategoryAPIView,
    SearchWorkoutAPIView,
    SuggestedWorkoutAPIView,
-   SuggestMealPlanAPIView
+   SuggestMealPlanAPIView,
+   ProgressHistoryAPIView   
 )
 
 urlpatterns = [
@@ -18,5 +19,6 @@ urlpatterns = [
     path("meal-plan/", SuggestMealPlanAPIView.as_view(), name="meal-plan"),
     path("categories/", CategoryAPIView.as_view(), name="categories"),
     path("search-workout/", SearchWorkoutAPIView.as_view(), name="search-workout"),
-    path("upload-body-image/", UploadBodyImageAPIView.as_view(), name="upload-body-image")
+    path("upload-body-image/", UploadBodyImageAPIView.as_view(), name="upload-body-image"),
+    path("progress-history/", ProgressHistoryAPIView.as_view(), name="progress-history")
 ]
