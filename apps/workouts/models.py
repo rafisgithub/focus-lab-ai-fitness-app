@@ -92,3 +92,13 @@ class UserMealPlan(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.meal_plan.id}"
+
+
+class ProgressHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tips = models.TextField(blank=True,null=True)
+    image = models.ImageField(upload_to='progress_images/')
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Progress of {self.user.username} on {self.date}"

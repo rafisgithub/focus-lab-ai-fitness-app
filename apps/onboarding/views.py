@@ -8,33 +8,39 @@ from rest_framework import status
 import json
 from openai import OpenAI
 
+from apps.workouts.models import Category
+from apps.workouts.serializers import CategorySerializer
+
 GPT_MODEL = os.getenv('GPT_MODEL', 'gpt-5-nano-2025-08-07')
 
 class OnboardingView(APIView):
     permission_classes = []
     
     def post(self, request, *args, **kwargs):
-        # Get the data from the request
+
         body_image = request.data.get('body_image', '')
         onboarding_data = request.data.get('onboarding', {})
-        
-        # Combine the data for GPT input
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        json_data = serializer.data
+
         gpt_input_data = {
             'onboarding': onboarding_data,
-            'body_image': body_image
+            'body_image': body_image,
+            'categories': json_data
         }
         
         try:
             # Initialize OpenAI client
             client = OpenAI()
             
-            # Call GPT-5 API
             response = client.chat.completions.create(
                 model=GPT_MODEL,
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a fitness assistant. Analyze the user's onboarding data and body image to provide personalized fitness recommendations and a beautiful meal plan use proper emojis"
+                        "content": """You are a highly skilled fitness assistant trained to provide personalized workout plans, meal recommendations, and wellness advice. Analyze the user's onboarding data, body image, and available workout categories to create a tailored fitness journey. Ensure to select an appropriate workout category from the available options. Choose a workout form from the following categories: 
+                        {categories}. Please make the recommendation motivational, practical, and include emojis to make it more engaging. Also, provide a healthy, balanced meal plan that complements the workout."""
                     },
                     {
                         "role": "user",
@@ -43,13 +49,9 @@ class OnboardingView(APIView):
                 ]
             )
             
-            # Extract the GPT response
             gpt_response = response.choices[0].message.content
             
-            # Prepare success response
             data = {
-                # 'onboarding': onboarding_data,
-                # 'body_image': body_image,
                 'gpt_response': gpt_response
             }
 

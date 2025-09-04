@@ -2,7 +2,7 @@ import ast
 import base64
 import os
 from openai import OpenAI
-from apps.workouts.models import Category, Macros,MealPlan, Meal, SuggestedWorkout, Swaps, Workout,Hydration, UserMealPlan
+from apps.workouts.models import Category, Macros,MealPlan, Meal, ProgressHistory, SuggestedWorkout, Swaps, Workout,Hydration, UserMealPlan
 from rest_framework.views import APIView
 from apps.workouts.serializers import WorkoutSerializer, CategorySerializer, MealPlanSerializer
 from apps.utils.helpers import success, error
@@ -291,6 +291,13 @@ class UploadBodyImageAPIView(APIView):
 
             # Save UserMealPlan association
             UserMealPlan.objects.update_or_create(user=user, meal_plan=meal_plan_instance)
+            
+
+            ProgressHistory.objects.create(
+                user=user,
+                image=image,
+                tips="",
+            )
 
             return success({
                 "suggested_workouts": suggested_workouts,
