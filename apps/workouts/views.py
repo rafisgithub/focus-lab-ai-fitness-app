@@ -4,7 +4,7 @@ import os
 from openai import OpenAI
 from apps.workouts.models import Category, Macros,MealPlan, Meal, ProgressHistory, SuggestedWorkout, Swaps, Workout,Hydration, UserMealPlan
 from rest_framework.views import APIView
-from apps.workouts.serializers import WorkoutSerializer, CategorySerializer, MealPlanSerializer
+from apps.workouts.serializers import WorkoutSerializer, CategorySerializer, MealPlanSerializer,ProgressHistorySerializer
 from apps.utils.helpers import success, error
 from rest_framework.permissions import IsAuthenticated
 import ast
@@ -297,6 +297,7 @@ class UploadBodyImageAPIView(APIView):
             # Check if previous_image_instance is not None before accessing .image
             if previous_image_instance:
                 previous_image = open(previous_image_instance.image.path, "rb").read()
+                previous_image_for_db  = previous_image
                 previous_image = base64.b64encode(previous_image).decode("utf-8")
             else:
                 previous_image = None  
@@ -378,9 +379,10 @@ class UploadBodyImageAPIView(APIView):
             parsed_data = parse_response(response_text)
 
         # Create ProgressHistory entry
-            progress_entry = ProgressHistory.objects.create(
+            ProgressHistory.objects.create(
                 user=user,
-                image=image,  # Assuming current_image is the file or path
+                previous_image=previous_image_for_db if previous_image_instance else None,
+                current_image=image,
                 tips=parsed_data['tips'],
                 differentiate_from_previous=parsed_data['differentiate_from_previous'],
                 current_analysis=parsed_data['current_analysis'],
@@ -401,3 +403,16 @@ class UploadBodyImageAPIView(APIView):
 
         except Exception as e:
             return error({"error": str(e)})
+        
+
+class ProgressHistoryAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        
+        progress_history = ProgressHistory.objects.filter(user=user).order_by('-date')
+        if(not progress_history):
+            return error(message="No progress history found for this user.", code=200)
+        serializer = ProgressHistorySerializer(progress_history, many=True)
+        return success(serializer.data, "Progress history retrieved successfully.", 200)
