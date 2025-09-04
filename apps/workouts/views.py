@@ -296,7 +296,7 @@ class UploadBodyImageAPIView(APIView):
 
             # Check if previous_image_instance is not None before accessing .image
             if previous_image_instance:
-                previous_image = open(previous_image_instance.previous_image.path, "rb").read()
+                previous_image = open(previous_image_instance.current_image.path, "rb").read()
                 previous_image_for_db  = previous_image
                 previous_image = base64.b64encode(previous_image).decode("utf-8")
             else:
