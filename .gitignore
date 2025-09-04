@@ -205,5 +205,3 @@ staticfiles/
 media/
 
 db.sqlite3
-
-media/
