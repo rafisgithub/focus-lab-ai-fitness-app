@@ -6,12 +6,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 import json
-from openai import OpenAI
+from apps.system_setting.openai_client import get_openai_client
 
 from apps.workouts.models import Category
 from apps.workouts.serializers import CategorySerializer
-
-GPT_MODEL = os.getenv('GPT_MODEL', 'gpt-5-nano-2025-08-07')
 
 class OnboardingView(APIView):
     permission_classes = []
@@ -32,10 +30,10 @@ class OnboardingView(APIView):
         
         try:
             # Initialize OpenAI client
-            client = OpenAI()
-            
-            response = client.chat.completions.create(
-                model=GPT_MODEL,
+            openai, gpt_model = get_openai_client()
+
+            response = openai.chat.completions.create(
+                model=gpt_model,
                 messages=[
                     {
                         "role": "system",

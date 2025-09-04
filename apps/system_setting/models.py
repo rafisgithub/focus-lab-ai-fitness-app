@@ -65,3 +65,19 @@ class SystemColor(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class OpenAIApiKey(models.Model):
+    api_key = models.CharField(max_length=255)
+    gpt_model = models.CharField(max_length=255, default='gpt-5')
+    is_active = models.BooleanField(default=True)
+
+  
+    def save(self, *args, **kwargs):
+        if self.is_active:
+            OpenAIApiKey.objects.filter(is_active=True).update(is_active=False)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"OpenAI API Key - {'Active' if self.is_active else 'Inactive'}"
+    

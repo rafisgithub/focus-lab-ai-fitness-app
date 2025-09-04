@@ -123,7 +123,14 @@ def get_unfold_settings():
                             "link": reverse_lazy(
                                 "admin:system_setting_systemcolor_changelist"
                             ),
-                        }
+                        },
+                        {
+                            "title": _("OpenAI API Key"),
+                            "icon": "key",
+                            "link": reverse_lazy(
+                                "admin:system_setting_openaiapikey_changelist"
+                            ),
+                        },
                        
                     ],
                 },
