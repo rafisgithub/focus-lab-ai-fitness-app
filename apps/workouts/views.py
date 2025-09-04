@@ -1,7 +1,7 @@
 import ast
 import base64
 import os
-from openai import OpenAI
+from apps.system_setting.openai_client import get_openai_client
 from apps.workouts.models import Category, Macros,MealPlan, Meal, ProgressHistory, SuggestedWorkout, Swaps, Workout,Hydration, UserMealPlan
 from rest_framework.views import APIView
 from apps.workouts.serializers import WorkoutSerializer, CategorySerializer, MealPlanSerializer,ProgressHistorySerializer
@@ -11,7 +11,6 @@ import ast
 from django.core.files.base import ContentFile
 
 
-GPT_MODEL = os.getenv('GPT_MODEL', 'gpt-5-nano-2025-08-07')
 
 class WorkoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -117,11 +116,11 @@ class UploadBodyImageAPIView(APIView):
             json_data = serializer.data
 
             # Initialize OpenAI client
-            client = OpenAI()
-
-            # Make the OpenAI request
-            response = client.responses.create(
-                model=GPT_MODEL,
+          
+            openai, gpt_model = get_openai_client()
+            
+            response = openai.responses.create(
+                model=gpt_model,
                 input=[{
                     "role": "user",
                     "content": [
@@ -340,8 +339,8 @@ class UploadBodyImageAPIView(APIView):
                 })
 
             # Make the API call
-            response = client.responses.create(
-                model=GPT_MODEL,
+            response = openai.responses.create(
+                model=gpt_model,
                 input=[{
                     "role": "user",
                     "content": content
