@@ -96,7 +96,10 @@ class UserMealPlan(models.Model):
 
 class ProgressHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    tips = models.TextField(blank=True,null=True)
+    tips = models.TextField(blank=True, null=True)
+    differentiate_from_previous = models.TextField(blank=True, null=True)
+    current_analysis = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to='progress_images/')
     date = models.DateField(auto_now_add=True)
 
