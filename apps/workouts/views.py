@@ -98,7 +98,8 @@ class UploadBodyImageAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        # Retrieve the image from the request
+        
+        user = request.user
         image = request.FILES.get("image")
 
         if not image:
@@ -242,8 +243,6 @@ class UploadBodyImageAPIView(APIView):
             hydration = safe_parse("Hydration", "UserMealPlan")
             user_meal_plan = safe_parse("UserMealPlan", "")
 
-            user = request.user
-
             # Save SuggestedWorkouts
             for workout in suggested_workouts:
                 SuggestedWorkout.objects.update_or_create(user=user, workout_id=workout.get('id'))
@@ -291,13 +290,103 @@ class UploadBodyImageAPIView(APIView):
 
             # Save UserMealPlan association
             UserMealPlan.objects.update_or_create(user=user, meal_plan=meal_plan_instance)
-            
 
-            ProgressHistory.objects.create(
-                user=user,
-                image=image,
-                tips="",
+            current_image = image_base64
+            previous_image_instance = ProgressHistory.objects.filter(user=user).order_by('-date').first()
+
+            # Check if previous_image_instance is not None before accessing .image
+            if previous_image_instance:
+                previous_image = open(previous_image_instance.image.path, "rb").read()
+                previous_image = base64.b64encode(previous_image).decode("utf-8")
+            else:
+                previous_image = None  
+
+
+            # Prepare the content array
+            content = [
+                {
+                    "type": "input_text", 
+                    "text": f"""Compare the two uploaded images in terms of body composition, muscle tone, and overall fitness. 
+                    1. Provide a detailed summary of the visible changes between the current and previous images.
+                    2. Highlight any differences in muscle definition, fat reduction, posture, or other notable body transformations.
+                    3. Offer actionable tips for improving body composition, including workout recommendations, dietary advice, or lifestyle changes.
+                    4. Provide a general analysis of the user's current fitness level based on the comparison.
+                    5. Conclude with a status update on the user's progress.
+                    
+                    Use the following format for the output:
+                    - **Tips**: Actionable advice for improvement.
+                    - **Differentiate from Previous**: A brief comparison summary between the two images.
+                    - **Current Analysis**: General evaluation of the user's fitness progress.
+                    - **Status**: Progress status."""
+                },
+                {
+                    "type": "input_image", 
+                    "image_url": f"data:image/jpeg;base64,{current_image}"
+                }
+            ]
+
+            # Only add previous image if it exists
+            if previous_image:
+                content.append({
+                    "type": "input_image", 
+                    "image_url": f"data:image/jpeg;base64,{previous_image}"
+                })
+
+            # Make the API call
+            response = client.responses.create(
+                model=GPT_MODEL,
+                input=[{
+                    "role": "user",
+                    "content": content
+                }]
             )
+
+            response_text = response.output_text
+
+            def parse_response(response_text):
+                sections = {
+                    'tips': '',
+                    'differentiate_from_previous': '',
+                    'current_analysis': '',
+                    'status': ''
+                }
+                
+                current_section = None
+                lines = response_text.split('\n')
+                
+                for line in lines:
+                    line = line.strip()
+                    if line.startswith('- **Tips**:'):
+                        current_section = 'tips'
+                        sections['tips'] = line.replace('- **Tips**:', '').strip()
+                    elif line.startswith('- **Differentiate from Previous**:'):
+                        current_section = 'differentiate_from_previous'
+                        sections['differentiate_from_previous'] = line.replace('- **Differentiate from Previous**:', '').strip()
+                    elif line.startswith('- **Current Analysis**:'):
+                        current_section = 'current_analysis'
+                        sections['current_analysis'] = line.replace('- **Current Analysis**:', '').strip()
+                    elif line.startswith('- **Status**:'):
+                        current_section = 'status'
+                        sections['status'] = line.replace('- **Status**:', '').strip()
+                    elif current_section and line and not line.startswith('- **'):
+                        # Append to current section if it's continuation text
+                        sections[current_section] += ' ' + line
+                
+                return sections
+
+        # Parse the response
+            parsed_data = parse_response(response_text)
+
+        # Create ProgressHistory entry
+            progress_entry = ProgressHistory.objects.create(
+                user=user,
+                image=image,  # Assuming current_image is the file or path
+                tips=parsed_data['tips'],
+                differentiate_from_previous=parsed_data['differentiate_from_previous'],
+                current_analysis=parsed_data['current_analysis'],
+                status=parsed_data['status']
+            )
+
 
             return success({
                 "suggested_workouts": suggested_workouts,
@@ -306,7 +395,8 @@ class UploadBodyImageAPIView(APIView):
                 "meals": meals,
                 "swaps": swaps,
                 "hydration": hydration,
-                "user_meal_plan": user_meal_plan
+                "user_meal_plan": user_meal_plan,
+
             })
 
         except Exception as e:
