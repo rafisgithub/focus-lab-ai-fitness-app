@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.utils.html import format_html
 from unfold.admin import ModelAdmin
-from .models import AboutSystem, DynamicPages, SMTPSetting, SocialMedia, SystemColor,OpenAIApiKey
+from .models import AboutSystem, DynamicPages, SMTPSetting, SocialMedia, SystemColor,OpenAIApiCredentials
 @admin.register(AboutSystem)
 
 class AboutSystemAdmin(ModelAdmin):
@@ -79,8 +79,8 @@ class SystemColorAdmin(ModelAdmin):
     list_display_links = ("id", "name", "code",)
 
 
-@admin.register(OpenAIApiKey)
-class OpenAIApiKeyAdmin(ModelAdmin):
+@admin.register(OpenAIApiCredentials)
+class OpenAIApiCredentialsAdmin(ModelAdmin):
     list_display = ("id", "api_key", "gpt_model", "is_active",)
     search_fields = ("id", "api_key", "gpt_model",)
     list_display_links = ("id", "api_key", "gpt_model",)
