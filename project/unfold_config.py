@@ -128,7 +128,7 @@ def get_unfold_settings():
                             "title": _("OpenAI API Key"),
                             "icon": "key",
                             "link": reverse_lazy(
-                                "admin:system_setting_openaiapikey_changelist"
+                                "admin:system_setting_openaiapicredentials_changelist"
                             ),
                         },
                        

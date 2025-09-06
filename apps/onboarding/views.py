@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 import json
-from apps.system_setting.openai_client import get_openai_client
+from apps.utils.openai_client import get_openai_client
 
 from apps.workouts.models import Category
 from apps.workouts.serializers import CategorySerializer

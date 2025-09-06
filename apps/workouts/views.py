@@ -1,7 +1,7 @@
 import ast
 import base64
 import os
-from apps.system_setting.openai_client import get_openai_client
+from apps.utils.openai_client import get_openai_client
 from apps.workouts.models import Category, Macros,MealPlan, Meal, ProgressHistory, SuggestedWorkout, Swaps, Workout,Hydration, UserMealPlan
 from rest_framework.views import APIView
 from apps.workouts.serializers import WorkoutSerializer, CategorySerializer, MealPlanSerializer,ProgressHistorySerializer
