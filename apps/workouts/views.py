@@ -1,14 +1,16 @@
-import ast
-import base64
-import os
 from apps.utils.openai_client import get_openai_client
 from apps.workouts.models import Category, Macros,MealPlan, Meal, ProgressHistory, SuggestedWorkout, Swaps, Workout,Hydration, UserMealPlan
 from rest_framework.views import APIView
 from apps.workouts.serializers import WorkoutSerializer, CategorySerializer, MealPlanSerializer,ProgressHistorySerializer
 from apps.utils.helpers import success, error
 from rest_framework.permissions import IsAuthenticated
-import ast
 from django.core.files.base import ContentFile
+import uuid
+from io import BytesIO
+from PIL import Image
+import ast
+import base64
+import os
 
 
 
@@ -95,6 +97,7 @@ class SearchWorkoutAPIView(APIView):
         serializer = WorkoutSerializer(workouts, many=True)
         return success(serializer.data, "Workouts retrieved successfully.", 200)
 
+
 class UploadBodyImageAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -102,13 +105,45 @@ class UploadBodyImageAPIView(APIView):
         
         user = request.user
         image = request.FILES.get("image")
+        
+        current_image_for_db = None
 
         if not image:
             return error({"error": "No image uploaded"})
 
+        mime_type = image.content_type
+
+        if mime_type not in ["image/jpeg", "image/png", "image/jpg","image/heif"]:
+            return error({"error": "Invalid image format. Please upload a JPEG or PNG image."}, 400)
+        
+        
         try:
-            # Convert the image to base64
-            image_base64 = base64.b64encode(image.read()).decode("utf-8")
+            # Store the original image file for later use
+            original_image_file = image
+            
+            #if image not jpeg convert it to jpeg
+            if mime_type != "image/jpeg":
+                
+                image_data = Image.open(request.FILES["image"])
+                image_data = image_data.resize((1024, 1024))  
+
+                output = BytesIO()
+                image_data.convert("RGB").save(output, format="JPEG") 
+                current_image_for_db = output.getvalue()
+                image_base64 = base64.b64encode(current_image_for_db).decode("utf-8")
+                
+                # Create a ContentFile from the converted image for database storage
+                converted_image = ContentFile(current_image_for_db)
+                converted_image.name = f"{user.id}_{uuid.uuid4().hex}.jpg"
+               
+            else:
+                image_data = image.read()
+                image_base64 = base64.b64encode(image_data).decode("utf-8")
+                # Reset file pointer for later use
+                image.seek(0)
+                converted_image = image
+
+
 
             # Retrieve all categories from the Category model and serialize them
             categories = Category.objects.all()
@@ -188,7 +223,7 @@ class UploadBodyImageAPIView(APIView):
                                         ]
 
                                         ### Swaps:
-                                        Provide any **swaps** for the user’s meals. This could include:
+                                        Provide any **swaps** for the user's meals. This could include:
                                         - vegetarian (string): Vegetarian meal options.
                                         - easy_options (string): Simple, quick meal options that the user can consider.
 
@@ -207,7 +242,7 @@ class UploadBodyImageAPIView(APIView):
                                         ]
 
                                         ### UserMealPlan:
-                                        Provide a **summary of the user’s meal plan** (e.g., the number of meals, total calories, etc.).
+                                        Provide a **summary of the user's meal plan** (e.g., the number of meals, total calories, etc.).
 
                                         Example:
                                         UserMealPlan = [
@@ -293,19 +328,22 @@ class UploadBodyImageAPIView(APIView):
             UserMealPlan.objects.update_or_create(user=user, meal_plan=meal_plan_instance)
 
             current_image = image_base64
-            previous_image_instance = ProgressHistory.objects.filter(user=user).order_by('-date').first()
+            previous_image_instance = ProgressHistory.objects.filter(user=user).order_by('-date').first()            
 
-            # Check if previous_image_instance is not None before accessing .image
-            if previous_image_instance:
-                with open(previous_image_instance.current_image.path, "rb") as f:
-                    previous_image = f.read()
-                
-                image_name = os.path.basename(previous_image_instance.current_image.path)
-                previous_image_for_db = ContentFile(previous_image, name=image_name)
-                
-                previous_image = base64.b64encode(previous_image).decode("utf-8")
+            previous_image_for_db = None
+            if previous_image_instance and previous_image_instance.current_image:
+                try:
+                    with open(previous_image_instance.current_image.path, "rb") as f:
+                        previous_image_data = f.read()
+                    previous_image_base64 = base64.b64encode(previous_image_data).decode("utf-8")
+
+                    previous_image_for_db = f"/media/{previous_image_instance.current_image.name}"
+                except (FileNotFoundError, IOError):
+                    previous_image_base64 = None
+                    previous_image_for_db = None
             else:
-                previous_image = None  
+                previous_image_base64 = None
+                previous_image_for_db = None
 
 
             # Prepare the content array
@@ -332,10 +370,12 @@ class UploadBodyImageAPIView(APIView):
             ]
 
             # Only add previous image if it exists
-            if previous_image:
+
+            print(previous_image_base64)
+            if previous_image_base64:
                 content.append({
                     "type": "input_image", 
-                    "image_url": f"data:image/jpeg;base64,{previous_image}"
+                    "image_url": f"data:image/jpeg;base64,{previous_image_base64}"
                 })
 
             # Make the API call
@@ -386,8 +426,8 @@ class UploadBodyImageAPIView(APIView):
         # Create ProgressHistory entry
             ProgressHistory.objects.create(
                 user=user,
-                previous_image=previous_image_for_db if previous_image_instance else None,
-                current_image=image,
+                previous_image=previous_image_for_db,
+                current_image=converted_image,  # Use the converted image here
                 tips=parsed_data['tips'],
                 differentiate_from_previous=parsed_data['differentiate_from_previous'],
                 current_analysis=parsed_data['current_analysis'],
@@ -408,7 +448,6 @@ class UploadBodyImageAPIView(APIView):
 
         except Exception as e:
             return error({"error": str(e)})
-        
 
 class ProgressHistoryAPIView(APIView):
     permission_classes = [IsAuthenticated]

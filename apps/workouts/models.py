@@ -100,7 +100,7 @@ class ProgressHistory(models.Model):
     differentiate_from_previous = models.TextField(blank=True, null=True)
     current_analysis = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=255, blank=True, null=True)
-    previous_image = models.ImageField(upload_to='progress_images/')
+    previous_image = models.TextField(blank=True, null=True)
     current_image = models.ImageField(upload_to='progress_images/')
     date = models.DateField(auto_now_add=True)
 
