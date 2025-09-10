@@ -118,9 +118,7 @@ class UploadBodyImageAPIView(APIView):
         
         
         try:
-            # Store the original image file for later use
-            original_image_file = image
-            
+
             #if image not jpeg convert it to jpeg
             if mime_type != "image/jpeg":
                 
