@@ -118,9 +118,7 @@ class UploadBodyImageAPIView(APIView):
         
         
         try:
-            # Store the original image file for later use
-            original_image_file = image
-            
+
             #if image not jpeg convert it to jpeg
             if mime_type != "image/jpeg":
                 
@@ -457,6 +455,6 @@ class ProgressHistoryAPIView(APIView):
         
         progress_history = ProgressHistory.objects.filter(user=user).order_by('-date')
         if(not progress_history):
-            return error(message="No progress history found for this user.", code=200)
+            return success(data=[], message="No progress history found! Because you haven't uploaded any images.", code=200)
         serializer = ProgressHistorySerializer(progress_history, many=True)
         return success(serializer.data, "Progress history retrieved successfully.", 200)
