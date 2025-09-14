@@ -17,4 +17,4 @@ class PageApiView(APIView):
         if page:
             return success(data=serializer.data, message="Page retrieved successfully")
         else:
-            return error(message="Page not found")
+            return success(data=[], message="Page not found", code=200)
