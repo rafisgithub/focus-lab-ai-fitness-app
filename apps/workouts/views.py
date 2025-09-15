@@ -61,7 +61,7 @@ class SuggestMealPlanAPIView(APIView):
         meal_plan = MealPlan.objects.filter(user=user).first()  
 
         if not meal_plan:
-            return success(data=[], message="No meal plan found for this user.", code=200)
+            return success(data=[], message="No meal plan has been created for you yet because you haven't uploaded any images.", code=200)
         
         # Serialize the meal plan data
         serializer = MealPlanSerializer(meal_plan)
