@@ -10,6 +10,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+
     class Meta:
         model = Workout
         fields = "__all__"
