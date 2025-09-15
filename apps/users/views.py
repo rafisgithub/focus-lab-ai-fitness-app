@@ -191,3 +191,11 @@ def dashboard_callback(request, context):
 
     return context
 
+class DeleteAccountView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def delete(self, request):
+        user = request.user
+        user.delete()
+        return success(data=[], message="Account deleted successfully.", code=status.HTTP_200_OK)

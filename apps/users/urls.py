@@ -16,6 +16,7 @@ from .views import (
     UpdateProfileAvatarView,
     UpdateProfileView,
     ProfileGet,
+    DeleteAccountView,
 )
 
 urlpatterns = [
@@ -37,4 +38,6 @@ urlpatterns = [
 
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+
+    path("delete-account/", DeleteAccountView.as_view(), name="delete_account"),
 ]
