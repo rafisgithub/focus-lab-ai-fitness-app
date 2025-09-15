@@ -23,8 +23,9 @@ class WorkoutAPIView(APIView):
         category_id = request.query_params.get("category_id", None)
         print(category_id)
 
-        workouts = Workout.objects.filter(category=category_id, gender=gender) if category_id else Workout.objects.all()
-
+        workouts = Workout.objects.filter(gender=gender, category=category_id) if category_id else Workout.objects.filter(gender=gender)
+        if(not workouts):
+            return success(data=[], message="No workouts found for this user.", code=200)
         serializer = WorkoutSerializer(workouts, many=True)
         print(serializer.data)
         return success(serializer.data, "Workouts retrieved successfully.", 200)
@@ -87,12 +88,13 @@ class SearchWorkoutAPIView(APIView):
 
     def get(self, request):
         q = request.query_params.get("q", None)
+        user = request.user
         if not q:
             return error({"error": "No search query provided."}, 400)
 
-        workouts = Workout.objects.filter(title__icontains=q)
+        workouts = Workout.objects.filter(gender=user.gender, title__icontains=q)
         if not workouts:
-            return error({"error": "No workouts found matching the search query."}, 404)
+            return success(data=[], message="No workouts found matching the search query.", code=200)
 
         serializer = WorkoutSerializer(workouts, many=True)
         return success(serializer.data, "Workouts retrieved successfully.", 200)
