@@ -56,14 +56,12 @@ class SuggestMealPlanAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        # Logic to suggest a meal plan for the user
         user = request.user
         
-        # You can modify this logic to fetch a specific meal plan suggestion based on some criteria
-        meal_plan = MealPlan.objects.filter(user=user).first()  # Fetches the user's first meal plan
-        
+        meal_plan = MealPlan.objects.filter(user=user).first()  
+
         if not meal_plan:
-            return error({"detail": "No meal plan found for this user."}, status=404)
+            return success(data=[], message="No meal plan found for this user.", code=200)
         
         # Serialize the meal plan data
         serializer = MealPlanSerializer(meal_plan)
