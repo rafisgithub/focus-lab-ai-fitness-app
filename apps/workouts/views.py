@@ -94,7 +94,7 @@ class CategoryAPIView(APIView):
       
         categories = Category.objects.all()
         if(not categories):
-            return error({"error": "No categories found for this user."}, 404)
+            return success(data=[], message="No categories found.", code=200)
         serializer = CategorySerializer(categories, many=True)
         return success(serializer.data, "Categories retrieved successfully.", 200)
     
@@ -107,7 +107,7 @@ class SearchWorkoutAPIView(APIView):
         q = request.query_params.get("q", None)
         user = request.user
         if not q:
-            return error({"error": "No search query provided."}, 400)
+            return error(message="Search query parameter 'q' is required.", code=400)
 
         workouts = Workout.objects.filter(gender=user.gender, title__icontains=q)
         if not workouts:
@@ -128,12 +128,12 @@ class UploadBodyImageAPIView(APIView):
         current_image_for_db = None
 
         if not image:
-            return error({"error": "No image uploaded"})
+            return error(message="No image provided.", code=400)
 
         mime_type = image.content_type
 
         if mime_type not in ["image/jpeg", "image/png", "image/jpg","image/heif"]:
-            return error({"error": "Invalid image format. Please upload a JPEG or PNG image."}, 400)
+            return error(message="Invalid image format. Please upload a JPEG or PNG image.", code=400)
         
         
         try:
@@ -467,7 +467,7 @@ class UploadBodyImageAPIView(APIView):
             })
 
         except Exception as e:
-            return error({"error": str(e)})
+            return error(message="An error occurred while processing the image.", errors=str(e), code=500)
 
 class ProgressHistoryAPIView(APIView):
     permission_classes = [IsAuthenticated]
