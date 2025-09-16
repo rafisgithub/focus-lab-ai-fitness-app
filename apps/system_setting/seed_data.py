@@ -56,11 +56,11 @@ def seed_system_color():
 
 
 
-def seed_openai_credentials():
-    openai_credentials = {
-        "api_key": os.getenv("OPENAI_API_KEY", "your_openai_api_key"),
-        "gpt_model": os.getenv("GPT_MODEL", "gpt-5"),
-    }
+# def seed_openai_credentials():
+#     openai_credentials = {
+#         "api_key": os.getenv("OPENAI_API_KEY", "your_openai_api_key"),
+#         "gpt_model": os.getenv("GPT_MODEL", "gpt-5"),
+#     }
 
-    OpenAIApiCredentials.objects.get_or_create(defaults=openai_credentials)
-    print("✅ OpenAI Credentials seeded successfully.")
+#     OpenAIApiCredentials.objects.get_or_create(defaults=openai_credentials)
+#     print("✅ OpenAI Credentials seeded successfully.")
