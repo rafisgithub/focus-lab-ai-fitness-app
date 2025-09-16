@@ -12,6 +12,7 @@ import ast
 import base64
 import os
 
+from django.utils import timezone
 
 
 class WorkoutAPIView(APIView):
@@ -37,9 +38,18 @@ class SuggestedWorkoutAPIView(APIView):
     def get(self, request):
         user = request.user
         gender = user.gender
-        
-        suggested_workouts = SuggestedWorkout.objects.filter(user=user)
+        query_date = request.query_params.get("date", None)
+        date = timezone.datetime.fromisoformat(query_date) if query_date else None
 
+        if(date):
+            suggested_workouts = SuggestedWorkout.objects.filter(user=user, date__date=date).order_by('-id')
+            if not suggested_workouts:
+                return success(data=[], message=f"{query_date} you did not upload any images, so no suggested workouts available.", code=200)
+        else:
+            suggested_workouts = SuggestedWorkout.objects.filter(user=user).order_by('-id')
+            if not suggested_workouts:
+                return success(data=[], message="No suggested workouts found! Because you haven't uploaded any images.", code=200)
+            
         filtered_workouts = []
 
         for suggested_workout in suggested_workouts:
@@ -57,14 +67,23 @@ class SuggestMealPlanAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
-        
-        meal_plan = MealPlan.objects.filter(user=user).first()  
+        query_date = request.query_params.get("date", None)
+        date = timezone.datetime.fromisoformat(query_date) if query_date else None
+        print(date)
 
-        if not meal_plan:
-            return success(data=[], message="No meal plan has been created for you yet because you haven't uploaded any images.", code=200)
+        if(date):
+            meal_plan = MealPlan.objects.filter(user=user, date__date=date).order_by('-id')
+
+            if not meal_plan:
+                return success(data=[], message=f"{query_date} you did not upload any images, so no meal plan available.", code=200)
+        else:
+            meal_plan = MealPlan.objects.filter(user=user).order_by('-id')
+
+            if not meal_plan:
+                return success(data=[], message="No meal plan has been created for you yet because you haven't uploaded any images.", code=200)
         
         # Serialize the meal plan data
-        serializer = MealPlanSerializer(meal_plan)
+        serializer = MealPlanSerializer(meal_plan,many=True)
         return success(serializer.data, message="Suggested meal plan retrieved successfully.")
 
 
@@ -151,6 +170,9 @@ class UploadBodyImageAPIView(APIView):
             # Initialize OpenAI client
           
             openai, gpt_model = get_openai_client()
+
+            if(not openai):
+                return success(data=[], message="OpenAI client not configured.", code=200)
             
             response = openai.responses.create(
                 model=gpt_model,
@@ -452,9 +474,20 @@ class ProgressHistoryAPIView(APIView):
 
     def get(self, request):
         user = request.user
-        
-        progress_history = ProgressHistory.objects.filter(user=user).order_by('-date')
-        if(not progress_history):
-            return success(data=[], message="No progress history found! Because you haven't uploaded any images.", code=200)
+        query_date = request.query_params.get("date", None)
+        date = timezone.datetime.fromisoformat(query_date) if query_date else None
+
+
+        if(date):
+
+            progress_history = ProgressHistory.objects.filter(user=user, date__date=date).order_by('-id')
+            if(not progress_history):
+                return success(data=[], message=f"{query_date} you did not upload any images, so no progress history available.", code=200)
+        else:
+            progress_history = ProgressHistory.objects.filter(user=user).order_by('-id')
+
+            if(not progress_history):
+                return success(data=[], message="No progress history found! Because you haven't uploaded any images.", code=200)
+            
         serializer = ProgressHistorySerializer(progress_history, many=True)
         return success(serializer.data, "Progress history retrieved successfully.", 200)
