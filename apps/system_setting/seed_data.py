@@ -1,3 +1,4 @@
+import os
 from apps.system_setting.models import AboutSystem, OpenAIApiCredentials, SMTPSetting, SocialMedia, SystemColor
 
 def seed_system_setting():
@@ -57,8 +58,8 @@ def seed_system_color():
 
 def seed_openai_credentials():
     openai_credentials = {
-        "api_key": "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",
-        "gpt_model": "gpt-5",
+        "api_key": os.getenv("OPENAI_API_KEY", "your_openai_api_key"),
+        "gpt_model": os.getenv("GPT_MODEL", "gpt-5"),
     }
 
     OpenAIApiCredentials.objects.get_or_create(defaults=openai_credentials)
