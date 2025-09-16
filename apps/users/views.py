@@ -124,7 +124,7 @@ class UpdateProfileAvatarView(APIView):
         try:
             userProfile = UserProfile.objects.select_related('user').get(user=user)
         except UserProfile.DoesNotExist as e:
-            return error(message="User profile not found.", errors=e, code=status.HTTP_400_BAD_REQUEST)
+            return success(data=[], message="User profile not found.", code=200)
 
         serializer = UpdateProfileAvatarSerializer(userProfile, data=request.data, partial=True)
         if serializer.is_valid():
