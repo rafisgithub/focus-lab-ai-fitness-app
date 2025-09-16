@@ -51,7 +51,7 @@ class MealPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = MealPlan
         fields = ['id', 'user', 'goal', 'calories', 'hydration', 'notes', 
-                  'macros_info', 'meals', 'swaps_info', 'hydration_info']
+                  'macros_info', 'meals', 'swaps_info', 'hydration_info','date']
         
 
 class ProgressHistorySerializer(serializers.ModelSerializer):

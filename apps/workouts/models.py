@@ -29,7 +29,7 @@ class Workout(models.Model):
 class SuggestedWorkout(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
 
 
 # Meal Plan Model
@@ -39,6 +39,7 @@ class MealPlan(models.Model):
     calories = models.TextField()
     hydration = models.TextField()
     notes = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.username}'s Meal Plan"
@@ -102,7 +103,7 @@ class ProgressHistory(models.Model):
     status = models.CharField(max_length=255, blank=True, null=True)
     previous_image = models.TextField(blank=True, null=True)
     current_image = models.ImageField(upload_to='progress_images/')
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Progress of {self.user.username} on {self.date}"
