@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 
 from apps.users.seed_data import seed_users
 from apps.workouts.seed_data import seed_categories,seed_workouts
-from apps.system_setting.seed_data import seed_system_setting, seed_social_media, seed_smtp_credentials,seed_system_color
+from apps.system_setting.seed_data import seed_openai_credentials, seed_system_setting, seed_social_media, seed_smtp_credentials,seed_system_color
 from apps.cms.seed_data import seed_faq, seed_page
 
 class Command(BaseCommand):
@@ -18,5 +18,6 @@ class Command(BaseCommand):
         seed_system_color()    
         seed_page()
         seed_faq()
+        seed_openai_credentials()
      
         self.stdout.write(self.style.SUCCESS("Seeding completed."))
