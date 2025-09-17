@@ -2,13 +2,14 @@ from apps.cms.models import FAQ, Page
 
 def seed_page():
     pages = [
- {
-        "title": "Privacy Policy",
-        "slug": "privacy-policy",
-        "content": "This Privacy Policy explains how we collect, use, and protect your personal information when you interact with our website, mobile application, and services. By using our platform, you acknowledge that you have read and understood the terms outlined in this policy.\n\nWe collect information that you provide voluntarily, such as your name, email address, phone number, or any other details you share during registration, purchases, or inquiries. Additionally, we automatically gather certain data through cookies and analytics tools to improve your experience, such as browser type, device information, and pages visited.\n\nYour personal data is primarily used to provide, improve, and personalize our services. For example, we use your information to process orders, respond to support requests, send updates about our services, and enhance the overall usability of our platform. We may also use anonymized data for research, analysis, and business improvement.\n\nWe prioritize your privacy and implement robust security measures, including encryption, secure servers, and access controls, to protect your information from unauthorized access, alteration, or disclosure. However, no method of online transmission is 100% secure, and we cannot guarantee absolute safety.\n\nWe never sell, rent, or trade your personal data to third parties for marketing purposes. However, we may share your information with trusted service providers or as required by law to comply with legal obligations or protect our rights.\n\nBy continuing to use our platform, you agree to this Privacy Policy. We may update this policy from time to time, and the latest version will always be available on this page. If you have any concerns or questions, please contact our support team for assistance.",
-        "type": "privacy_policy",
-        "status": True
+    {
+            "title": "Privacy Policy",
+            "slug": "privacy-policy",
+            "content": "This Privacy Policy explains how we collect, use, and protect your personal information when you interact with our AI Body Fitness mobile application and services. By using our platform, you agree to the practices described in this policy.\n\nWe collect personal information that you provide, such as your name, email address, phone number, and body images that you upload for analysis. Additionally, we collect non-personal information through cookies and analytics tools, such as device information, IP address, and pages visited.\n\nYour personal data is used to provide personalized meal plans, fitness recommendations, and progress tracking. We may also send updates, respond to support inquiries, and improve the app's functionality.\n\nWe implement various security measures, including encryption and secure servers, to protect your data. However, no method of online transmission is 100% secure, and we cannot guarantee absolute safety.\n\nWe do not sell, rent, or trade your personal data to third parties for marketing purposes. We may share your data with trusted service providers or to comply with legal obligations.\n\nYou have the right to access, correct, and delete your personal information. You can also opt-out of marketing communications at any time.\n\nThis Privacy Policy may be updated from time to time. The latest version will always be available on this page.\n\nFor any questions or concerns, please contact us at support@yourappdomain.com.",
+            "type": "privacy_policy",
+            "status": True
     },
+
     {
         "title": "Terms and Conditions",
         "slug": "terms-and-conditions",
