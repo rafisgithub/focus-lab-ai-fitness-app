@@ -4,6 +4,7 @@ from apps.users.seed_data import seed_users
 from apps.workouts.seed_data import (
     seed_categories,
     seed_workouts,
+    seed_day,
     seed_suggested_workouts,
     seed_suggested_meal_plans,
     seed_macros,
@@ -36,6 +37,7 @@ class Command(BaseCommand):
         seed_page()
         seed_faq()
         seed_openai_credentials()
+        seed_day()
         seed_suggested_workouts()
         seed_suggested_meal_plans()
         seed_macros()

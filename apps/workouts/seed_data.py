@@ -1,4 +1,4 @@
-from apps.workouts.models import Category, Hydration, Macros, Meal, MealPlan, ProgressHistory, SuggestedWorkout, Swaps, Workout
+from apps.workouts.models import Category, Day, Hydration, Macros, Meal, MealPlan, ProgressHistory, SuggestedWorkout, Swaps, Workout
 
 def seed_categories():
     categories = [
@@ -318,6 +318,19 @@ def seed_workouts():
     print("✅Workouts seeded successfully.")
 
 
+def seed_day():
+    days = [
+        "Day 1",
+        "Day 2",
+        "Day 3",
+        "Day 4",
+        "Day 5",
+        "Day 6",
+        "Day 7"
+    ]
+    for day in days:
+        Day.objects.get_or_create(name=day)
+    print("✅ Days seeded successfully.")
 
 
 def seed_suggested_workouts():
@@ -325,36 +338,336 @@ def seed_suggested_workouts():
     seed_suggested_workouts = [
         {
             "user_id": 1,
+            "day_id": 1,
             "workout_id": 1,
         },
         {
             "user_id": 1,
+            "day_id": 1,
             "workout_id": 2,
         },
         {
             "user_id": 1,
+            "day_id": 1,
             "workout_id": 3,
         },
         {
             "user_id": 1,
+            "day_id": 1,
             "workout_id": 4,
         },
         {
             "user_id": 1,
+            "day_id": 1,
             "workout_id": 5,
         },
         {
             "user_id": 1,
+            "day_id": 1,
             "workout_id": 6,
         },
         {
             "user_id": 1,
+            "day_id": 1,
             "workout_id": 7,
         },
         {
             "user_id": 1,
+            "day_id": 1,
             "workout_id": 8,
-        }
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 8,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 7,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 6,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 10,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 11,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 12,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 2,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 13,
+        },
+        {
+            "user_id": 1,
+            "day_id": 3,
+            "workout_id": 1,
+        },
+        {
+            "user_id": 1,
+            "day_id": 3,
+            "workout_id": 14,
+        },
+        {
+            "user_id": 1,
+            "day_id": 3,
+            "workout_id": 15,
+        },
+        {
+            "user_id": 1,
+            "day_id": 3,
+            "workout_id": 16,
+        },
+        {
+            "user_id": 1,
+            "day_id": 4,
+            "workout_id": 17,
+        },
+        {
+            "user_id": 1,
+            "day_id": 4,
+            "workout_id": 18,
+        },
+        {
+            "user_id": 1,
+            "day_id": 4,
+            "workout_id": 19,
+        },
+        {
+            "user_id": 1,
+            "day_id": 4,
+            "workout_id": 20,
+        },
+        {
+            "user_id": 1,
+            "day_id": 5,
+            "workout_id": 21,
+        },
+        {
+            "user_id": 1,
+            "day_id": 5,
+            "workout_id": 4,
+        },
+        {
+            "user_id": 1,
+            "day_id": 5,
+            "workout_id": 7,
+        },
+        {
+            "user_id": 1,
+            "day_id": 6,
+            "workout_id": 2,
+        },
+        {
+            "user_id": 1,
+            "day_id": 6,
+            "workout_id": 5,
+        },
+        {
+            "user_id": 1,
+            "day_id": 6,
+            "workout_id": 8,
+        },
+        {
+            "user_id": 1,
+            "day_id": 7,
+            "workout_id": 3,
+        },
+        {
+            "user_id": 1,
+            "day_id": 7,
+            "workout_id": 6,
+        },
+        {
+            "user_id": 1,
+            "day_id": 7,
+            "workout_id": 1,
+        },
+        {
+            "user_id": 1,
+            "day_id": 1,
+            "workout_id": 1,
+        },
+        {
+            "user_id": 1,
+            "day_id": 1,
+            "workout_id": 2,
+        },
+        {
+            "user_id": 1,
+            "day_id": 1,
+            "workout_id": 3,
+        },
+        {
+            "user_id": 1,
+            "day_id": 1,
+            "workout_id": 4,
+        },
+        {
+            "user_id": 1,
+            "day_id": 1,
+            "workout_id": 5,
+        },
+        {
+            "user_id": 1,
+            "day_id": 1,
+            "workout_id": 6,
+        },
+        {
+            "user_id": 1,
+            "day_id": 1,
+            "workout_id": 7,
+        },
+        {
+            "user_id": 1,
+            "day_id": 1,
+            "workout_id": 8,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 8,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 7,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 6,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 10,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 11,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 12,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 2,
+        },
+        {
+            "user_id": 1,
+            "day_id": 2,
+            "workout_id": 13,
+        },
+        {
+            "user_id": 1,
+            "day_id": 3,
+            "workout_id": 1,
+        },
+        {
+            "user_id": 1,
+            "day_id": 3,
+            "workout_id": 14,
+        },
+        {
+            "user_id": 1,
+            "day_id": 3,
+            "workout_id": 15,
+        },
+        {
+            "user_id": 1,
+            "day_id": 3,
+            "workout_id": 16,
+        },
+        {
+            "user_id": 1,
+            "day_id": 4,
+            "workout_id": 17,
+        },
+        {
+            "user_id": 1,
+            "day_id": 4,
+            "workout_id": 18,
+        },
+        {
+            "user_id": 1,
+            "day_id": 4,
+            "workout_id": 19,
+        },
+        {
+            "user_id": 1,
+            "day_id": 4,
+            "workout_id": 20,
+        },
+        {
+            "user_id": 1,
+            "day_id": 5,
+            "workout_id": 21,
+        },
+        {
+            "user_id": 1,
+            "day_id": 5,
+            "workout_id": 4,
+        },
+        {
+            "user_id": 1,
+            "day_id": 5,
+            "workout_id": 7,
+        },
+        {
+            "user_id": 1,
+            "day_id": 6,
+            "workout_id": 2,
+        },
+        {
+            "user_id": 1,
+            "day_id": 6,
+            "workout_id": 5,
+        },
+        {
+            "user_id": 1,
+            "day_id": 6,
+            "workout_id": 8,
+        },
+        {
+            "user_id": 1,
+            "day_id": 7,
+            "workout_id": 3,
+        },
+        {
+            "user_id": 1,
+            "day_id": 7,
+            "workout_id": 6,
+        },
+        {
+            "user_id": 1,
+            "day_id": 7,
+            "workout_id": 1,
+        },
+
+
     ]
 
     for swo in seed_suggested_workouts:

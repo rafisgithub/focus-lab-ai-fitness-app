@@ -58,3 +58,10 @@ class ProgressHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgressHistory
         fields = ['id','user','tips','differentiate_from_previous','current_analysis','status','previous_image','current_image','date']
+
+class SuggestedWorkoutSerializer(serializers.ModelSerializer):
+    workout = WorkoutSerializer()
+
+    class Meta:
+        model = SuggestedWorkout
+        fields = ['id', 'workout']
