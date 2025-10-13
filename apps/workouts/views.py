@@ -11,6 +11,7 @@ from PIL import Image
 import ast
 import base64
 import os
+from django.db import models
 
 from django.utils import timezone
 
@@ -37,24 +38,35 @@ class SuggestedWorkoutAPIView(APIView):
 
     def get(self, request):
         user = request.user
-        progress_history = ProgressHistory.objects.filter(user=user).order_by('-date').first()
-        if not progress_history:
-            suggested_workouts = SuggestedWorkout.objects.all().select_related('day', 'workout')
+        gender = user.gender
+        
+        # Determine if user has progress history
+        has_progress = ProgressHistory.objects.filter(user=user).exists()
+        
+        # Build query with gender filtering in both cases
+        suggested_workouts = SuggestedWorkout.objects.filter(
+            models.Q(workout__gender=gender) | models.Q(workout__gender='both')
+        )
+        
+        # Add user filter based on progress history
+        if has_progress:
+            suggested_workouts = suggested_workouts.filter(user=user)
         else:
-            suggested_workouts = SuggestedWorkout.objects.filter(user_id=user.id).select_related('day', 'workout')
-
-        day_wise_workouts = {}
+            suggested_workouts = suggested_workouts.filter(user__isnull=True)
+        
+        suggested_workouts = suggested_workouts.select_related('day', 'workout')
+        
+        # Organize and return response
+        from collections import defaultdict
+        day_wise_workouts = defaultdict(list)
         for suggestion in suggested_workouts:
-            day_name = suggestion.day.name
-            if day_name not in day_wise_workouts:
-                day_wise_workouts[day_name] = []
-            day_wise_workouts[day_name].append(suggestion)
-
-        response_data = {}
-        for day, workouts in day_wise_workouts.items():
-            serialized_workouts = SuggestedWorkoutSerializer(workouts, many=True)
-            response_data[day] = serialized_workouts.data
-
+            day_wise_workouts[suggestion.day.name].append(suggestion)
+        
+        response_data = {
+            day: SuggestedWorkoutSerializer(workouts, many=True).data 
+            for day, workouts in day_wise_workouts.items()
+        }
+        
         return success(response_data, "Suggested workouts retrieved successfully.", 200)
 
 

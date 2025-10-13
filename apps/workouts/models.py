@@ -31,7 +31,7 @@ class Day(models.Model):
         return self.name
 
 class SuggestedWorkout(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='suggested_workouts', blank=True, null=True)
     day = models.ForeignKey(Day, on_delete=models.CASCADE ,related_name='suggested_workouts')
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name='suggested_workouts')
     date = models.DateTimeField(auto_now_add=True)
