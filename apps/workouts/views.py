@@ -42,32 +42,40 @@ class SuggestedWorkoutAPIView(APIView):
         
         # Determine if user has progress history
         has_progress = ProgressHistory.objects.filter(user=user).exists()
-        
-        # Build query with gender filtering in both cases
+
+        # Build query with gender filtering (handle 'both' case)
         suggested_workouts = SuggestedWorkout.objects.filter(
             models.Q(workout__gender=gender) | models.Q(workout__gender='both')
         )
-        
+
         # Add user filter based on progress history
         if has_progress:
             suggested_workouts = suggested_workouts.filter(user=user)
         else:
             suggested_workouts = suggested_workouts.filter(user__isnull=True)
+
+        # Use select_related to optimize queries for related fields
+        suggested_workouts = suggested_workouts.select_related('day', 'workout', 'workout__category')  # add other fields if needed
         
-        suggested_workouts = suggested_workouts.select_related('day', 'workout')
-        
-        # Organize and return response
+        # Organize the workouts day-wise
         from collections import defaultdict
         day_wise_workouts = defaultdict(list)
+
         for suggestion in suggested_workouts:
             day_wise_workouts[suggestion.day.name].append(suggestion)
-        
+
+        # Ensure days are sorted correctly (if necessary)
+        days_order = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+        sorted_day_wise_workouts = {day: day_wise_workouts[day] for day in days_order if day in day_wise_workouts}
+
+        # Serialize the data
         response_data = {
             day: SuggestedWorkoutSerializer(workouts, many=True).data 
-            for day, workouts in day_wise_workouts.items()
+            for day, workouts in sorted_day_wise_workouts.items()
         }
         
         return success(response_data, "Suggested workouts retrieved successfully.", 200)
+
 
 
 
