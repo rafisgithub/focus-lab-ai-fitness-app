@@ -348,6 +348,18 @@ def seed_suggested_workouts():
     for swo in seed_suggested_workouts:
         SuggestedWorkout.objects.get_or_create(**swo)
 
+    #only for user 1
+    for workout_id in range(1, 41):
+        day_id = ((workout_id - 1) % 7) + 1  # Distribute across days 1-7
+        seed_suggested_workouts.append({
+            "user_id" : 1,
+            "day_id": day_id,
+            "workout_id": workout_id,
+        })
+
+    for swo in seed_suggested_workouts:
+        SuggestedWorkout.objects.get_or_create(**swo)
+
     print("✅ Suggested Workouts seeded successfully.")
 
 
